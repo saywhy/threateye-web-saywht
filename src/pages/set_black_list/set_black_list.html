@@ -1,0 +1,123 @@
+<div class="set" ng-controller="Set_black_listController" ng-init="app.settings.container = false;" ng-cloak>
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="set_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="form-group col-md-1 form_class">
+                                <h4>白名单</h4>
+                            </div>
+                            <div class="form-group col-md-2 col-md-offset-5 form_class">
+                                <button class="form-control btn btn-primary btn_style" style="max-width: 93px;margin-top: 3px;" ng-click="add()">添加白名单</button>
+                            </div>
+                            <div class="form-group col-md-2  form_class">
+                                    <button class="form-control btn btn-primary btn_style" style="max-width: 93px;margin-top: 3px;" ng-click="download()">下载模版</button>
+                            </div>
+                            <div class="form-group col-md-2  form_class">
+                                <button class="form-control btn btn-primary btn_style" style="max-width: 93px;margin-top: 3px;" ng-click="import()">批量导入</button>
+                            </div>
+                        </div>
+                        <div class="box box-solid" style="margin-top:10px;">
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade in active">
+                                    <div class="box-body">
+                                        <table class="table table-hover  ng-cloak">
+                                            <tr>
+                                                <th style="width:50px">序号</th>
+                                                <th>指标</th>
+                                                <th>类型</th>
+                                                <th>创建时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            <tr ng-repeat="item in pages0.data">
+                                                <td ng-bind="$index + 1 + index_num">1</td>
+                                                <td ng-bind="item.indicator">f34a9d6df5c26f311c6cb3cc5fbd4186</td>
+                                                <td ng-bind="item.alert_type">f34a9d6df5c26f311c6cb3cc5fbd4186</td>
+                                                <td ng-bind="item.create_time">2018-05-08 10:32</td>
+                                                <td class="cursor">&nbsp;&nbsp;
+                                                    <img src="../src/images/icos/delate.png" ng-click="del(item)"title="删除" width="16" height="16" alt="">
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <!-- angularjs分页 -->
+                                        <div style="border-top: 1px solid #f4f4f4;padding: 10px;">
+                                            <em>共有
+                                                <span ng-bind="pages0.count"></span>条</em>
+                                            <!-- angularjs分页 -->
+                                            <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow-1)" ng-if="pages0.pageNow>1">上一页</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(1)" ng-if="pages0.pageNow>1">1</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-if="pages0.pageNow>4">...</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow-2)" ng-bind="pages0.pageNow-2" ng-if="pages0.pageNow>3"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow-1)" ng-bind="pages0.pageNow-1" ng-if="pages0.pageNow>2"></a>
+                                                </li>
+                                                <li class="active">
+                                                    <a href="javascript:void(0);" ng-bind="pages0.pageNow"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow+1)" ng-bind="pages0.pageNow+1" ng-if="pages0.pageNow<pages0.maxPage-1"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow+2)" ng-bind="pages0.pageNow+2" ng-if="pages0.pageNow<pages0.maxPage-2"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-if="pages0.pageNow<pages0.maxPage-3">...</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.maxPage)" ng-bind="pages0.maxPage" ng-if="pages0.pageNow<pages0.maxPage"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);" ng-click="getPage0(pages0.pageNow+1)" ng-if="pages0.pageNow<pages0.maxPage">下一页</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 弹窗 -->
+                <div style="display: none;" id="hideenBox">
+                    <div id="newUser">
+                        <form>
+                            <div class="box-body">
+                                <div class=" {{nameerror ? 'has-error':''}}">
+                                    <label for="InputVersion">指标：</label>
+                                    <input class="form-control" ng-model="white_list.indicator" style="border-radius: 3px">
+                                </div>
+                                <br>
+                                <div class=" {{passworderror ? 'has-error':''}}">
+                                    <label for="InputVersion">类型：</label>
+                                    <select ng-init="white_list.alert_type = type_list[0]" class="form-control input_radius" style="background-color: #fff;"
+                                        ng-model="white_list.alert_type" ng-options="x for x in type_list">
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 上传文件 -->
+                <div class="input-file" style="display: none">
+                    <form id="upload" method="post" enctype="multipart/form-data">
+                        <input type="text" id="avatval" placeholder="请选择文件···" readonly="readonly" style="vertical-align: middle;" />
+                        <input type="file" name="file" id="avatar" />
+                        <button ng-click="uploadPic()" class="btn btn-primary upload_button" ng-disabled="upload_true" id="avatsel1">上传文件</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

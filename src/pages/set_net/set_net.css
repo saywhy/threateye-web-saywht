@@ -1,0 +1,8 @@
+.net_item{
+    padding: 10px;
+    font-size: 16px;
+}
+.net_item_header{
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}

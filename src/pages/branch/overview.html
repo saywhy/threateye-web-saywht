@@ -1,0 +1,259 @@
+<div class="overview" ng-controller="OverViemController" ng-init="app.settings.container = false;" ng-cloak>
+    <!-- Main content -->
+    <!-- 第一排 -->
+    <div class="row o_frist">
+        <!-- 左边-监控系统状态 -->
+        <div class="o_container col-md-3">
+            <div class="system">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-windows"></i>
+                        系统状态监控
+                    </p>
+                </div>
+                <div class="row" ng-click="change_password('lg')">
+                    <div class="box-sed-left-left col-md-12">
+                        <p class="box-sed-left-left-info col-md-4" ng-repeat="item in system">
+                            <span class="{{item.color}}"></span>
+                            <span ng-bind="item.name"></span>
+                            <a href="javascript:;" style="text-decoration:underline" class="box-sed-left-span" ng-click="showState(item)">
+                                <span ng-bind="item.num"> </span>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="box-sed-left-right col-md-12">
+                        <!-- 图表 -->
+                        <div id="sys"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 中间-日志 -->
+        <div class="o_container col-md-5">
+            <div class="flow">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-line-chart"></i>
+                        流量文件监控
+                    </p>
+                </div>
+                <div class="row flow-content">
+                    <div class="flow-left col-md-12">
+                        <p class="flow-item col-md-6">
+                            <span class="flow-color2"></span>
+                            <span>流量（M/S）</span>
+                        </p>
+                        <p class="flow-item col-md-6">
+                            <span class="flow-color3"></span>
+                            <span>文件（个/S）</span>
+                        </p>
+                    </div>
+
+                    <div class="flow-right col-md-12">
+                        <div id="flowtotal"></div>
+                        <div id="flowinfo"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 右边- 协议统计 -->
+        <div class="col-md-4 o_container">
+            <div class="equipment">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-desktop"></i>
+                        协议统计
+                    </p>
+                </div>
+                <!-- /.box-header -->
+                <div class="row equipment-content">
+                    <div class="equipment-right col-md-12">
+                        <p>单位：(P/S)</p>
+                        <div id="safetyequipment"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 第二排 -->
+    <div class="row o_third">
+        <!-- 左边-告警-->
+        <div class="col-md-4 o_container">
+            <div class="alarm">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-life-ring"></i>
+                        告警
+                    </p>
+                </div>
+                <div class="row alarm-content">
+                    <div id="alarm_number">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 中间-未处理告警 -->
+        <div class="o_container col-md-3">
+            <div class="alarm">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-cubes"></i>
+                        未处理告警
+                    </p>
+                </div>
+                <div class="row untreated-content">
+                    <div id="untreatedalarm"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 右边-威胁类型-->
+        <div class="col-md-5 o_container">
+            <div class="alarm">
+                <div class="o_box_header">
+                    <p>
+                        <i class="glyphicon glyphicon-link"></i>
+                        威胁类型
+                    </p>
+                </div>
+                <!-- /.o_box_header -->
+                <div class="row alarm-content">
+                    <div id="threaten_type">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 第三排 -->
+    <div class="row o_fourth">
+        <!-- 左边-TOP5威胁 -->
+        <div class="o_container col-md-3 new_top_left">
+            <div class="top">
+                <div class="o_box_header">
+                    <p>
+                        <i class="glyphicon glyphicon-sort-by-attributes-alt"></i>
+                        TOP5威胁
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="top5">
+                        <table class="table table-striped">
+                            <tr>
+                                <th style="width: 40px">排名</th>
+                                <th style="width: 80px">威胁指标</th>
+                                <th style="width: 88px">威胁类型</th>
+                            </tr>
+                            <tr ng-repeat="(index,item) in top_threaten_data" style="height: 37px;">
+                                <td ng-bind="index+1">1</td>
+                                <td ng-bind="item.indicator" title={{item.indicator}}></td>
+                                <td ng-bind="item.category"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 中间top5风险资产-->
+        <div class="o_container col-md-4 new_top_mid">
+            <div class="top">
+                <div class="o_box_header">
+                    <p>
+                        <i class="glyphicon glyphicon-sort-by-attributes-alt"></i>
+                        TOP5风险资产
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="top5">
+                        <table class="table table-striped">
+                            <tr>
+                                <th style="width:12%">排名</th>
+                                <th style="width:35%">资产</th>
+                                <th style="width:30%">风险度</th>
+                            </tr>
+                            <tr ng-repeat="(index,item) in risk_property_data">
+                                <td ng-bind="index+1">1</td>
+                                <td ng-bind="item.client_ip"></td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" ng-style="item.style"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 右边-  最新告警-->
+        <div class="col-md-5 o_container new_alert">
+            <div class="top">
+                <div class="o_box_header">
+                    <p>
+                        <i class="fa fa-bell"></i>
+                        最新告警
+                    </p>
+                </div>
+                <div class="row ">
+                    <div class="top5">
+                        <table class="table table-striped">
+                            <tr>
+                                <th style="width: 143px">时间</th>
+                                <th>告警类型</th>
+                                <th>威胁指标</th>
+                                <th>源地址</th>
+                                <th>目的地址</th>
+                                <th style="width: 53px">应用</th>
+                                <th style="width: 73px">告警等级</th>
+                            </tr>
+                            <tr ng-repeat="item in new_alarm_data" style="height: 37px;">
+                                <td ng-bind="item.alert_time*1000 |date:'yyyy-MM-dd HH:mm:ss'"></td>
+                                <td ng-bind="item.category" title={{item.category}}></td>
+                                <td ng-bind="item.indicator" title={{item.indicator}}></td>
+                                <td ng-bind="item.src_ip" title={{item.src_ip}}></td>
+                                <td ng-bind="item.dest_ip" title={{item.dest_ip}}></td>
+                                <td ng-bind="item.application == 'tls'? 'https': item.application"></td>
+                                <td ng-bind="item.degree"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹窗 -->
+    <div class="pop" id="pop" ng-show="showpop">
+        <div class="pop-content">
+            <p class="pop-content-head">
+                <i class="fa fa-windows"></i> 拓扑图 </p>
+            <span class="closed" ng-click="popfasle(event)">
+                <i class="glyphicon glyphicon-remove"></i>
+            </span>
+            <div class="pop-content-info">
+                <div class="sys-chart">
+                    <div id="graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="iot_pop" ng-show="iotcontent">
+        <div class="iot_pop_content">
+            <p class="iot_pop_content_head">
+                <i class="fa fa-windows"></i> 
+                <span ng-bind="iot_detail_title.data.names"></span>
+                <span ng-bind="iot_detail_title.data.dev_ip"></span>
+                <span>的健康情况</span>
+             </p>
+            <span class="closed" ng-click="ito_popfasle(event)">
+                <i class="glyphicon glyphicon-remove"></i>
+            </span>
+            <div class="pop-content-info">
+                <div class="sys-chart">
+                    <div id="iot_detail_top">
+                    </div>
+                    <div id="iot_detail_bom" ng-if="flow_echarts">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

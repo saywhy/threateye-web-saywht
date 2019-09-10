@@ -1,0 +1,45 @@
+.add_button{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.marigin_name{
+    margin-right: 20px;
+}
+.addrole_item{
+    margin: 15px 15px 15px 0;
+    position: relative;
+    /* height: 40px; */
+    /* line-height: 34px; */
+}
+.addrole_input{
+    height: 34px;
+    /* border-radius: 4px; */
+    width: 200px;
+}
+.role_textarea{
+     border: 1px solid #999;
+    width: 530px;
+    height: 125px;
+    position: absolute;
+    left: 76px;
+    top: -4px;
+    resize: none;
+}
+.select_todolist{
+    position: absolute;
+    top: -4px;
+    left: 76px;
+}
+.strategy_label{
+    display: inline-block;
+    width: 200px;
+    margin-right: 10px;
+}
+.strategy_item{
+    height: 35px;
+}
+.strategy_number{
+    width: 50px;
+    text-align: center;
+}

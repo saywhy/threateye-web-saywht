@@ -1,0 +1,340 @@
+    .overview {
+        width: 100%;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .o_container {
+        padding: 0 5px;
+    }
+
+    /* 公共部分 */
+
+    .o_box_header {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 10px;
+        font-size: 18px;
+        font-weight: 700;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .o_frist,
+    .o_sed,
+    .o_third,
+    .o_fourth {
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .system,
+    .flow,
+    .equipment,
+    .target,
+    .untreated,
+    .alarm,
+    .top {
+        padding: 0 5px;
+        background-color: #fff;
+        border-radius: 5px;
+        border-top: 3px solid #d2d6de;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    #sys,
+    #target_port,
+    #untreatedalarm,
+    #alarm_number,
+    #threaten_type {
+        padding: 10px;
+        width: 100%;
+        height: 200px;
+    }
+
+    #top10,
+    #new {
+        padding: 10px;
+        width: 100%;
+        height: 235px;
+    }
+
+    /* 第一排---------- */
+
+    /* 系统健康图表 */
+
+    .box-block-red {
+        width: 20px;
+        height: 10px;
+        border-radius: 2px;
+        display: inline-block;
+        background-color: rgba(150,33,22,.8);
+    }
+
+    .box-block-green {
+        display: inline-block;
+        border-radius: 2px;
+        background-color: rgba(131, 186, 174, .8);
+        width: 20px;
+        height: 10px;
+    }
+
+    .box-block-gray {
+        display: inline-block;
+        border-radius: 2px;
+        background-color: #666;
+        width: 20px;
+        height: 10px;
+    }
+
+    .box-sed-left-left {
+        padding-top: 10px;
+        /* border: 1px solid #666; */
+    }
+
+    .box-sed-left-left-info {
+        white-space: nowrap;
+    }
+
+    .box-sed-left-span {
+        text-align: center;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    /* 日志信息 */
+
+    #flowinfo {
+        width: 100%;
+        height: 100px;
+    }
+
+    #flowtotal {
+        width: 100%;
+        height: 100px;
+    }
+
+    .flow-color2 {
+        display: inline-block;
+        width: 20px;
+        height: 10px;
+        border-radius: 2px;
+        margin-right: 5px;
+        background-color: rgb(75, 106, 37);
+    }
+
+    .flow-color3 {
+        display: inline-block;
+        width: 20px;
+        height: 10px;
+        border-radius: 2px;
+        background-color: rgb(186, 75, 72);
+        margin-right: 5px;
+    }
+
+    .flow-item {
+        position: relative;
+        margin: 10px 0;
+    }
+
+    .flow-num {
+        position: absolute;
+        left: 110px;
+        top: 0;
+    }
+
+    /* 安全设备 */
+
+    #safetyequipment {
+        width: 100%;
+        height: 210px;
+    }
+
+    .equipment-right {
+        padding: 0;
+        /* border: 1px solid #ddd; */
+    }
+
+    .equipment-left-info {
+        white-space: nowrap;
+    }
+
+    /* 第三排 */
+
+    .top5 {
+        padding: 10px;
+        width: 100%;
+        height: 235px;
+    }
+
+    /* 第四排 */
+
+    .bg-success {
+        border-radius: 10px;
+    }
+
+    .bg-color1 {
+        background-color: #F90504;
+    }
+
+    .bg-color2 {
+        background-color: #F93B04;
+    }
+
+    .bg-color3 {
+        background-color: #FE690B;
+    }
+
+    .bg-color4 {
+        background-color: #FCB503;
+    }
+
+    .bg-color5 {
+        background-color: #F9ED04
+    }
+
+    .more {
+        color: #666;
+        display: inline-block;
+        font-size: 28px;
+        position: absolute;
+        right: 10px;
+        top: 0;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    td,
+    th {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+    /* 弹窗 */
+
+    .pop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(48, 46, 46, .5);
+        border-radius: 10px;
+        z-index: 66;
+    }
+
+    .pop-content {
+        padding: 10px;
+        position: absolute;
+        width: 800px;
+        background-color: #fff;
+        border-radius: 10px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 666;
+    }
+
+    .pop-content-head {
+        font-size: 20px;
+        font-weight: 700;
+        height: 40px;
+        border-bottom: 1px solid #ddd;
+        line-height: 40px;
+    }
+
+    /* iot pop */
+
+    .iot_pop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(48, 46, 46, .5);
+        border-radius: 10px;
+        z-index: 700;
+    }
+
+    .iot_pop_content {
+        padding: 10px;
+        position: absolute;
+        width: 800px;
+        background-color: #fff;
+        border-radius: 10px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+    }
+
+    .iot_pop_content_head {
+        font-size: 20px;
+        font-weight: 700;
+        height: 40px;
+        border-bottom: 1px solid #ddd;
+        line-height: 40px;
+    }
+
+    .progress,
+    .progress-bar {
+        height: 15px;
+    }
+
+    .sys-chart {
+        width: 100%;
+        height: 400px;
+    }
+
+    #topology {
+        width: 100%;
+        height: 400px;
+    }
+
+    #logrythm_left,
+    #logrythm_right {
+        width: 100%;
+        height: 400px;
+    }
+
+    #graph {
+        width: 100%;
+        height: 400px;
+    }
+
+    #iot_detail_top,
+    #iot_detail_bom {
+        width: 100%;
+        height: 200px;
+    }
+
+    .closed {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+    .err_info_header {
+        color: #F90504;
+        line-height: 34px;
+    }
+    .new_alert{
+        width: 50%
+    }
+    .new_top_left{
+      width: 25%
+    }
+    .new_top_mid{
+        width: 25%
+    }

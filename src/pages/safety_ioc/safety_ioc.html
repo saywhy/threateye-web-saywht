@@ -1,0 +1,130 @@
+<div class="safety_ioc" ng-controller="Safety_iocController" ng-init="app.settings.container = false;" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom row" style="margin-bottom: 0px;padding-bottom: 10px">
+                <ul class="nav nav-tabs" style="margin-bottom:-1px;border-bottom: 0">
+                    <li class="active">
+                        <a href="javascript:void();" data-toggle="tab" aria-expanded="true">
+                            <i class="fa fa-bell-o"></i> IOC扫描器</a>
+                    </li>
+                </ul>
+                <div style="margin:5px 20px">
+                    <div class="input-file">
+                        <form id="upload" method="post" enctype="multipart/form-data">
+                            <input type="text" id="avatval" placeholder="请点击此处选择文件···" readonly="readonly" style="vertical-align: middle;" />
+                            <input type="file" name="file" id="avatar" accept=".txt,.ioc" />
+                            <button ng-click="uploadPic()" class="btn btn-primary upload_button" ng-disabled="upload_true"
+                                id="avatsel1">搜 索</button>
+                        </form>
+                    </div>
+                    <div ng-show="progress_if" class="progress progress-striped active" style="margin: 20px 0;border-radius: 5px;width: 300px">
+                        <div class="progress-bar progress-bar-success" id="progress" role="progressbar" aria-valuenow="60"
+                            aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin:20px">
+                    <span> 请选择.txt（
+                        <a ng-click="download_temp()"> 下载模版</a>）或者.ioc的格式文件搜索。</span>
+                </div>
+                <!-- <div class="form-group col-md-1">
+                    <button class="form-control btn btn-primary btn_style" ng-disabled="btn_disabled" style="max-width: 80px;" ng-click="search()">搜&nbsp;&nbsp;索</button>
+                </div>
+                <div class="col-md-6" style="margin-top: 10px">
+                    <span>文件上传成功之后，请点击搜索按钮，进行文件筛选。</span>
+                </div> -->
+                <div class="tab-content" style="padding-top:0px;border-bottom:0px;">
+                    <div class="tab-pane active" id="protect">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid" style="margin-top:10px;">
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade in active" id="net">
+                                            <div class="box-body">
+                                                <table class="table table-hover  ng-cloak">
+                                                    <tr>
+                                                        <th style="width:80px">序号</th>
+                                                        <th>文件名</th>
+                                                        <th style="width: 120px">进度</th>
+                                                        <th style="width: 120px">状态</th>
+                                                        <th style="width: 120px">CSV文件</th>
+                                                        <th style="width: 160px">创建时间</th>
+                                                        <th style="width: 120px">操作</th>
+                                                    </tr>
+                                                    <tr ng-repeat="item in pages.data">
+                                                        <td ng-bind="$index + 1 + index_num">1</td>
+                                                        <td ng-bind="item.upload_file_name" title="{{item.upload_file_name}}">ioc文件</td>
+                                                        <td ng-bind="item.create_percent " style="width: 120px">50%</td>
+                                                        <td ng-bind="item.create_status == 0?'失败':'成功'" style="width: 120px">完成</td>
+                                                        <td class="cursor" style="width: 120px">
+                                                            <img src="../src/images/icos/download.png"  title="下载" ng-click="download(item)"
+                                                                width="16" height="16" alt="">
+                                                        </td>
+                                                        <td ng-bind="item.create_time | date: 'yyyy-MM-dd HH:mm:ss' "
+                                                            style="width: 160px">2018-07-20 05:00:00</td>
+                                                        <td class="cursor" style="width: 120px">&nbsp;&nbsp;
+                                                            <img src="../src/images/icos/delate.png" title="删除" ng-click="del(item)"
+                                                                width="16" height="16" alt="">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!-- angularjs分页 -->
+                                                <div style="border-top: 1px solid #f4f4f4;padding: 10px;">
+                                                    <em>共有
+                                                        <span ng-bind="pages.count"></span>条</em>
+                                                    <!-- angularjs分页 -->
+                                                    <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages.pageNow-1)"
+                                                                ng-if="pages.pageNow>1">上一页</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(1)" ng-if="pages.pageNow>1">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages.pageNow>4">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages.pageNow-2)"
+                                                                ng-bind="pages.pageNow-2" ng-if="pages.pageNow>3"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages0.pageNow-1)"
+                                                                ng-bind="pages.pageNow-1" ng-if="pages.pageNow>2"></a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="javascript:void(0);" ng-bind="pages.pageNow"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages.pageNow+1)"
+                                                                ng-bind="pages.pageNow+1" ng-if="pages.pageNow<pages.maxPage-1"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage0(pages.pageNow+2)"
+                                                                ng-bind="pages.pageNow+2" ng-if="pages.pageNow<pages.maxPage-2"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages.pageNow<pages.maxPage-3">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages.maxPage)"
+                                                                ng-bind="pages.maxPage" ng-if="pages.pageNow<pages.maxPage"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage(pages.pageNow+1)"
+                                                                ng-if="pages.pageNow<pages.maxPage">下一页</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- /.angularjs分页 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,241 @@
+<div class="safety_host" ng-controller="Safety_hostController" ng-init="app.settings.container = false;" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom" style="margin-bottom: 0px">
+                <ul class="nav nav-tabs" style="margin-bottom:-1px;">
+                    <li class="active">
+                        <a href="javascript:void();" data-toggle="tab" aria-expanded="true">
+                            <i class="fa fa-bell-o"></i> 主机调查</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="padding-top:0px;border-bottom:0px;">
+                    <!-- protect -->
+                    <div class="tab-pane active" id="protect">
+                        <div class="row margin download_relative">
+                            <div class="form-group col-md-4" style="max-width: 300px;">
+                                <label>时间</label>
+                                <input type="text" class="form-control timerange input_radius" readonly style="background-color: #fff;">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>主机</label>
+                                <input type="text" class="form-control input_radius" ng-model="host.host_ip" ng-keyup="myKeyup($event)">
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label style="width: 100%;">&nbsp;</label>
+                                <button class="form-control btn btn-primary btn_style" style="max-width: 80px;"
+                                    ng-click="search()">搜&nbsp;索</button>
+                            </div>
+                            <div class="download_position " ng-if="content_show">
+                                <span>
+                                    <img src="../src/images/icos/export.png" title="导出" ng-click="download(item.id)" width="18"
+                                        height="18" alt="">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="content_show">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <div class="box-header with-border" style="border:0">
+                                        <ul id="myTab" class="nav nav-tabs" ng-init="selected == 0">
+                                            <li ng-class="{'active':selected == $index}" ng-click="show($index)"
+                                                ng-repeat="item in tab_data">
+                                                <a data-toggle="tab">
+                                                    <i class="fa fa-bell-o"></i>
+                                                    <span ng-bind="item.name"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="myTabContent" class="tab-content" ng-if="selected == $index" ng-repeat="item in tab_data">
+                                        <div class="tab-pane fade in active" id="net">
+                                            <div class="box-body">
+                                                <table class="table table-hover ng-cloak">
+                                                    <tr>
+                                                        <th ng-repeat="key in item.content_th" ng-bind="key.name"
+                                                            ng-class="$index == 0?'index_xuhao':''"></th>
+                                                    </tr>
+                                                    <!-- 网络通讯 -->
+                                                    <tr style="cursor: pointer;" ng-if="selected == 0" ng-repeat="value_item in item.value">
+                                                        <td ng-bind="value_item.index" style="width: 65px"></td>
+                                                        <td ng-bind="value_item.time" class="width_300" title="{{value_item.time}}"></td>
+                                                        <td ng-bind="value_item.Ip"></td>
+                                                        <td ng-bind="value_item.source_port"></td>
+                                                        <td ng-bind="value_item.addr"></td>
+                                                        <td ng-bind="value_item.port"></td>
+                                                        <td ng-bind="value_item.email"></td>
+                                                        <td ng-bind="value_item.application"></td>
+                                                    </tr>
+                                                    <!-- 文件 -->
+                                                    <tr style="cursor: pointer;" ng-if="selected == 1" ng-repeat="value_item in item.value">
+                                                        <td ng-bind="value_item.index" style="width: 65px"></td>
+                                                        <td ng-bind="value_item.name"></td>
+                                                        <td ng-bind="value_item.hash"></td>
+                                                        <td ng-bind="value_item.source"></td>
+                                                        <td ng-bind="value_item.host_ip"></td>
+                                                        <td ng-bind="value_item.application"></td>
+                                                    </tr>
+                                                    <!-- 用户 -->
+                                                    <tr style="cursor: pointer;" ng-if="selected == 2" ng-repeat="value_item in item.value">
+                                                        <td ng-bind="value_item.index" style="width: 65px"></td>
+                                                        <td ng-bind="value_item.user_name"></td>
+                                                        <td ng-bind="value_item.host_ip"></td>
+                                                        <td ng-bind="value_item.application"></td>
+                                                    </tr>
+                                                </table>
+                                                <!-- angularjs分页 -->
+                                                <div style="border-top: 1px solid #f4f4f4;padding: 10px;" ng-if="selected == 0">
+                                                    <em>共有
+                                                        <span ng-bind="pages_network.count"></span>条</em>
+                                                    <!-- angularjs分页 -->
+                                                    <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow-1)"
+                                                                ng-if="pages_network.pageNow>1">上一页</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(1)"
+                                                                ng-if="pages_network.pageNow>1">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_network.pageNow>4">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow-2)"
+                                                                ng-bind="pages_network.pageNow-2" ng-if="pages_network.pageNow>3"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow-1)"
+                                                                ng-bind="pages_network.pageNow-1" ng-if="pages_network.pageNow>2"></a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="javascript:void(0);" ng-bind="pages_network.pageNow"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow+1)"
+                                                                ng-bind="pages_network.pageNow+1" ng-if="pages_network.pageNow<pages_network.maxPage-1"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow+2)"
+                                                                ng-bind="pages_network.pageNow+2" ng-if="pages_network.pageNow<pages_network.maxPage-2"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_network.pageNow<pages_network.maxPage-3">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.maxPage)"
+                                                                ng-bind="pages_network.maxPage" ng-if="pages_network.pageNow<pages_network.maxPage"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_network(pages_network.pageNow+1)"
+                                                                ng-if="pages_network.pageNow<pages_network.maxPage">下一页</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div style="border-top: 1px solid #f4f4f4;padding: 10px;" ng-if="selected == 1">
+                                                    <em>共有
+                                                        <span ng-bind="pages_file.count"></span>条</em>
+                                                    <!-- angularjs分页 -->
+                                                    <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow-1)"
+                                                                ng-if="pages_file.pageNow>1">上一页</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(1)"
+                                                                ng-if="pages_file.pageNow>1">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_file.pageNow>4">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow-2)"
+                                                                ng-bind="pages_file.pageNow-2" ng-if="pages_file.pageNow>3"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow-1)"
+                                                                ng-bind="pages_file.pageNow-1" ng-if="pages_file.pageNow>2"></a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="javascript:void(0);" ng-bind="pages_file.pageNow"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow+1)"
+                                                                ng-bind="pages_file.pageNow+1" ng-if="pages_file.pageNow<pages_file.maxPage-1"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow+2)"
+                                                                ng-bind="pages_file.pageNow+2" ng-if="pages_file.pageNow<pages_file.maxPage-2"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_file.pageNow<pages_file.maxPage-3">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.maxPage)"
+                                                                ng-bind="pages_file.maxPage" ng-if="pages_file.pageNow<pages_file.maxPage"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_file(pages_file.pageNow+1)"
+                                                                ng-if="pages_file.pageNow<pages_file.maxPage">下一页</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div style="border-top: 1px solid #f4f4f4;padding: 10px;" ng-if="selected == 2">
+                                                    <em>共有
+                                                        <span ng-bind="pages_user.count"></span>条</em>
+                                                    <!-- angularjs分页 -->
+                                                    <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow-1)"
+                                                                ng-if="pages_user.pageNow>1">上一页</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(1)"
+                                                                ng-if="pages_user.pageNow>1">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_user.pageNow>4">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow-2)"
+                                                                ng-bind="pages_user.pageNow-2" ng-if="pages_user.pageNow>3"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow-1)"
+                                                                ng-bind="pages_user.pageNow-1" ng-if="pages_user.pageNow>2"></a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="javascript:void(0);" ng-bind="pages_user.pageNow"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow+1)"
+                                                                ng-bind="pages_user.pageNow+1" ng-if="pages_user.pageNow<pages_user.maxPage-1"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow+2)"
+                                                                ng-bind="pages_user.pageNow+2" ng-if="pages_user.pageNow<pages_user.maxPage-2"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-if="pages_user.pageNow<pages_user.maxPage-3">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.maxPage)"
+                                                                ng-bind="pages_user.maxPage" ng-if="pages_user.pageNow<pages_user.maxPage"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="getPage_user(pages_user.pageNow+1)"
+                                                                ng-if="pages_user.pageNow<pages_user.maxPage">下一页</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

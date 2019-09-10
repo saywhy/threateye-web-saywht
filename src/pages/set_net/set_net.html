@@ -1,0 +1,102 @@
+<div class="set" ng-controller="Set_netController" ng-init="app.settings.container = false;" ng-cloak>
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="set_content">
+                <!-- 网络设备 -->
+                <div class="net_item">
+                    <div class="net_item_header row">
+                        <h4 class="col-md-1" style="min-width:130px">网络设备</h4>
+                        <div class="col-md-3" style="max-width: 230px">
+                                <select  class="form-control input_radius" style="background-color: #fff;"
+                                ng-model="net.index" ng-options="x for x in net_names" ng-change="net_card(net.index)">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row item_form">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">角色</label>
+                        <div class="col-sm-3" style="max-width: 230px">
+                            <select class="form-control input_radius" style="background-color: #fff;" ng-change="role_change(net_detail.PORT)"  ng-model="net_detail.PORT" ng-options="x.type as x.name for x in role"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row item_form">
+                        <label for="host" class="col-sm-1 control-label" style="min-width:130px">是否启用</label>
+                        <div class="col-sm-6">
+                            <div class="pull-left">
+                                <input class="tgl tgl-ios" id="encryption" type="checkbox" ng-checked="net_detail.ONBOOT == 'yes'" ng-click="net_detail.ONBOOT  = (net_detail.ONBOOT =='no'?'yes':'no')">
+                                <label class="tgl-btn" for="encryption"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT  == 'yes'" >
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">获取IP方式</label>
+                        <div class="col-sm-3" style="max-width: 230px">
+                            <select class="form-control input_radius" style="background-color: #fff;"ng-disabled="select_disabled"  ng-model="net_detail.BOOTPROTO" ng-options="x.type as x.name for x in ip_type"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT  == 'yes' && net_detail.BOOTPROTO == 'static'">
+                        <label for="port" class="col-sm-1 control-label"  style="min-width:130px">IP地址</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" ng-disabled="select_disabled" id="ip_addr" placeholder="" ng-model="net_detail.IPADDR">
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT  == 'yes' && net_detail.BOOTPROTO == 'static'">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">子网掩码</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" ng-disabled="select_disabled" id="sub_net" placeholder="" ng-model="net_detail.MASK">
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT  == 'yes' && net_detail.BOOTPROTO == 'static'">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">默认网关</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" ng-disabled="select_disabled" id="default_gateway" placeholder="" ng-model="net_detail.GATEWAY">
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT  == 'yes' && net_detail.BOOTPROTO == 'static'">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">首选DNS服务器</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" ng-disabled="select_disabled" id="first_dns" placeholder="" ng-model="net_detail.DNS1">
+                        </div>
+                    </div>
+                    <div class="form-group row item_form" ng-if="net_detail.ONBOOT == 'yes' && net_detail.BOOTPROTO == 'static'">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">备用DNS服务器</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" ng-disabled="select_disabled" id="spare_dns" placeholder="" ng-model="net_detail.DNS2">
+                        </div>
+                    </div>
+                    <div class="row">
+                    <!-- <div class="row" ng-if="net.type.enable == 'yes'"> -->
+                        <div class="form-group col-md-1 col-md-offset-5">
+                            <label style="width: 100%;">&nbsp;</label>
+                            <button class="form-control btn btn-primary btn_style" style="max-width: 80px;" ng-click="set_network()">保&nbsp;存</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 代理服务器 -->
+                <div class="net_item">
+                    <div class="net_item_header row">
+                        <h4 class="col-md-1" style="min-width:130px">代理服务器</h4>
+                    </div>
+                    <div class="form-group row item_form">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">HTTP</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" id="http" placeholder="" ng-model="httpModel">
+                        </div>
+                    </div>
+                    <div class="form-group row item_form">
+                        <label for="port" class="col-sm-1 control-label" style="min-width:130px">HTTPS</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control item_input" id="https" placeholder="" ng-model="httpsModel">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-1 col-md-offset-5">
+                            <label style="width: 100%;">&nbsp;</label>
+                            <button class="form-control btn btn-primary btn_style" style="max-width: 80px;" ng-click="saveHttps()">保&nbsp;存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,156 @@
+<!-- list -->
+<ul class="nav" >
+    <li ui-sref-active="active" title="总览" ng-if="menuListShow.overview">
+        <a ui-sref="app.overview">
+            <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
+            <span class="font-bold">总览</span>
+        </a>
+    </li>
+    <li  ng-if="menuListShow.alarm_all">
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon glyphicon-bell icon text-info-dker"></i>
+            <span class="font-bold">告警</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li ui-sref-active="active" ng-if="menuListShow.alarm">
+                <a ui-sref="app.alarm">
+                    <span>威胁告警</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.alarm_risk">
+                <a ui-sref="app.alarm_risk">
+                    <span>风险资产</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <!-- 安全调查 -->
+    <li ng-if="menuListShow.safety">
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon glyphicon-search icon text-success"></i>
+            <span class="font-bold">安全调查</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li ui-sref-active="active" ng-if="menuListShow.safety_dns">
+                <a ui-sref="app.safety_dns">
+                    <span>DNS调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.safety_url">
+                <a ui-sref="app.safety_url">
+                    <span>IP/URL通讯调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.safety_user">
+                <a ui-sref="app.safety_user">
+                    <span>用户调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.safety_file">
+                <a ui-sref="app.safety_file">
+                    <span>文件调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.safety_size">
+                <a ui-sref="app.safety_size">
+                    <span>数据传输调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.safety_direction">
+                <a ui-sref="app.safety_direction">
+                    <span>流量方向调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.safety_host">
+                <a ui-sref="app.safety_host">
+                    <span>主机调查</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.safety_ioc">
+                <a ui-sref="app.safety_ioc">
+                    <span>IOC扫描器</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <!-- 报表 -->
+    <li ui-sref-active="active" title="报表"  ng-if="menuListShow.reportform">
+        <a ui-sref="app.reportform ">
+            <i class="glyphicon glyphicon-th-large icon text-success"></i>
+            <span class="font-bold">报表</span>
+        </a>
+    </li>
+    <!-- 设置 -->
+    <li  ng-if="menuListShow.set">
+    <!-- <li > -->
+        <a href class="auto">
+            <span class="pull-right text-muted">
+                <i class="fa fa-fw fa-angle-right text"></i>
+                <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="glyphicon glyphicon-cog icon text-info-dker"></i>
+            <span class="font-bold">设置</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li ui-sref-active="active"  ng-if="menuListShow.set_net_ip">
+                <a ui-sref="app.set_net_ip">
+                    <span>内网IP段</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.set_black_list">
+                <a ui-sref="app.set_black_list">
+                    <span>白名单</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.set_user">
+            <!-- <li ui-sref-active="active"> -->
+                <a ui-sref="app.set_user">
+                    <span>用户管理</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.set_net">
+                <a ui-sref="app.set_net">
+                    <span>网络设置</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.set_rule">
+                <a ui-sref="app.set_rule">
+                    <span>规则库更新</span>
+                </a>
+            </li>
+            <li ui-sref-active="active"  ng-if="menuListShow.set_yara">
+                <a ui-sref="app.set_yara">
+                    <span>YARA规则</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.set_email">
+                <a ui-sref="app.set_email">
+                    <span>邮件通知</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.set_syslog">
+                <a ui-sref="app.set_syslog">
+                    <span>SYSLOG配置</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.set_licence">
+                <a ui-sref="app.set_licence">
+                    <span>许可证</span>
+                </a>
+            </li>
+            <li ui-sref-active="active" ng-if="menuListShow.set_log">
+                <a ui-sref="app.set_log">
+                    <span>审计日志</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="line dk"></li>

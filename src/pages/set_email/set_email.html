@@ -1,0 +1,85 @@
+<div class="set_email" ng-controller="Set_emailController" ng-init="app.settings.container = false;" ng-cloak>
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="set_content">
+                <div class="row">
+                    <div class="email_item">
+                        <div class="email_item_header">
+                            <h4>邮件服务器</h4>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label for="host" class="col-sm-3 control-label">SMTP服务器</label>
+                            <div class="col-sm-6">
+                                <input class="form-control item_input" id="host" placeholder="smtp.163.com" ng-model="item.host">
+                            </div>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label for="port" class="col-sm-3 control-label">SMTP端口</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control item_input" id="port" placeholder="25" ng-model="item.port">
+                            </div>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label class="col-sm-3 control-label">SMTP启用安全连接SSL</label>
+                            <div class="col-sm-6">
+                                <div class="pull-left">
+                                    <input class="tgl tgl-ios" id="encryption" type="checkbox" ng-checked="item.encryption == 'ssl'" ng-click="item.encryption = (item.encryption=='ssl'?'':'ssl')">
+                                    <label class="tgl-btn" for="encryption"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="email_item">
+                        <div class="email_item_header">
+                            <h4>发件邮箱账号</h4>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label for="username" class="col-sm-3 control-label">邮箱地址</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control item_input" id="username" placeholder="smtp.163.com" ng-model="item.username">
+                            </div>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label for="password" class="col-sm-3 control-label">邮箱密码</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control item_input" id="password" ng-model="item.password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="email_item">
+                        <div class="email_item_header">
+                            <h4>收件邮箱账号</h4>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label for="alertEmail" class="col-sm-3 control-label">邮箱地址</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control item_input" id="alertEmail" placeholder="smtp.163.com" ng-model="item.alertEmail">
+                            </div>
+                        </div>
+                        <div class="form-group row item_form">
+                            <label class="col-sm-3 control-label">发生告警时给此邮件发送通知邮件</label>
+                            <div class="col-sm-6">
+                                <div class="pull-left">
+                                    <input class="tgl tgl-ios" id="send" type="checkbox" ng-checked="item.send" ng-click="item.send=(item.send?false:true)">
+                                    <label class="tgl-btn" for="send"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-2 col-md-offset-4">
+                        <label style="width: 100%;">&nbsp;</label>
+                        <button class="form-control btn btn-primary btn_style" style="max-width: 108px;" ng-click="test_email()">发送测试邮件</button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label style="width: 100%;">&nbsp;</label>
+                        <button class="form-control btn btn-primary btn_style" style="max-width: 80px;" ng-click="save()">保&nbsp;存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

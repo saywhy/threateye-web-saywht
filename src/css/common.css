@@ -1,0 +1,13 @@
+.nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus {
+    color: #666;
+    /* font-weight: 700 !important; */
+    background: #f7f7f7;
+}
+.daterangepicker .calendar th, .daterangepicker .calendar td {
+    width: 32px;
+}
+.modal-content {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.125);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.125);
+}

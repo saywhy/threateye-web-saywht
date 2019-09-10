@@ -1,0 +1,29 @@
+.set_content{
+    margin:20px 0;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    min-height: 200px;
+}
+.form_class{
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+.box{
+    box-shadow: 0 0px 0px rgba(0,0,0,0);
+}
+
+.yara_span{
+    display: inline-block;
+    width: 100px;
+}
+
+.yara_rule{
+    padding: 20px
+}
+.btn_yara{
+    min-width: 80px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0
+}

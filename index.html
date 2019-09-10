@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app">
+
+<head>
+    <meta charset="utf-8" />
+    <title>ThreatEye高级威胁检测系统</title>
+    <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="src/images/icos/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="src/images/icos/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/webuploader.css" type="text/css" />
+    <link rel="stylesheet" href="src/css/AdminLTE.min.css" type="text/css" />
+    <link rel="stylesheet" href="src/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="src/css/zeroModal.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="src/css/element.css" type="text/css" /> -->
+    <link rel="stylesheet" href="src/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.css" type="text/css" />
+    <link rel="stylesheet" href="src/plugins/font-awesome-4.7.0/css/font-awesome.css" type="text/css" />
+    <link rel="stylesheet" href="src/plugins/datatables/dataTables.bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="src/plugins/datepicker/datepicker3.css" type="text/css" />
+    <link rel="stylesheet" href="src/plugins/daterangepicker/daterangepicker.css" type="text/css" />
+    <!-- 模块css -->
+    <link rel="stylesheet" href="src/pages/signin/signin.css" type="text/css" />
+    <link rel="stylesheet" href="src/plugins/particles/demo.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/overview/overview.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/alarm/alarm.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/alarm_detail/alarm_detail.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/reportform/reportform.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety/safety.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set/set.css" type="text/css" />
+    <!-- 告警 -->
+    <link rel="stylesheet" href="src/pages/alarm_risk/alarm_risk.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/alarm_risk_detail/alarm_risk_detail.css" type="text/css" />
+    <!-- 安全调查 分页 -->
+    <link rel="stylesheet" href="src/pages/safety_dns/safety_dns.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_direction/safety_direction.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_file/safety_file.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_user/safety_user.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_host/safety_host.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_ioc/safety_ioc.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_size/safety_size.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/safety_url/safety_url.css" type="text/css" />
+    <!-- 设置分页 -->
+    <link rel="stylesheet" href="src/pages/set_yara/set_yara.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_black_list/set_black_list.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_email/set_email.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_licence/set_licence.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_net/set_net.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_net_ip/set_net_ip.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_rule/set_rule.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_user/set_user.css" type="text/css" />
+    <link rel="stylesheet" href="src/pages/set_basic/set_basic.css" type="text/css" />
+</head>
+
+<body ng-controller="AppCtrl">
+    <div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}"
+        ui-view></div>
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- Angular -->
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular/angular-animate/angular-animate.js"></script>
+    <script src="vendor/angular/angular-cookies/angular-cookies.js"></script>
+    <script src="vendor/angular/angular-resource/angular-resource.js"></script>
+    <script src="vendor/angular/angular-sanitize/angular-sanitize.js"></script>
+    <script src="vendor/angular/angular-touch/angular-touch.js"></script>
+    <!-- Vendor -->
+    <script src="vendor/angular/angular-ui-router/angular-ui-router.js"></script>
+    <script src="vendor/angular/ngstorage/ngStorage.js"></script>
+    <!-- bootstrap -->
+    <script src="vendor/angular/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- lazyload -->
+    <script src="vendor/angular/oclazyload/ocLazyLoad.js"></script>
+    <!-- translate -->
+    <script src="vendor/angular/angular-translate/angular-translate.js"></script>
+    <script src="vendor/angular/angular-translate/loader-static-files.js"></script>
+    <script src="vendor/angular/angular-translate/storage-cookie.js"></script>
+    <script src="vendor/angular/angular-translate/storage-local.js"></script>
+    <!-- 引入echarts -->
+    <script src="vendor/modules/echarts/dist/echarts.min.js"></script>
+    <script src="src/plugins/particles/particles.min.js"></script>
+    <!-- <script src="src/plugins/particles/demo.js"></script> -->
+    <!-- <script src="src/plugins/particles/app.js"></script> -->
+    <!-- timepicker -->
+    <script src="src/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="src/plugins/daterangepicker/moment.min.js"></script>
+    <script src="src/plugins/daterangepicker/moment.js"></script>
+    <script src="src/plugins/daterangepicker/moment-zh.js"></script>
+    <script src="src/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="src/plugins/zeroModal.min.js"></script>
+    <!-- <script src="src/plugins/element-angular.js"></script> -->
+    <!-- App -->
+    <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/config.lazyload.js"></script>
+    <script src="js/config.router.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/services/ui-load.js"></script>
+    <script src="js/filters/fromNow.js"></script>
+    <script src="js/directives/setnganimate.js"></script>
+    <script src="js/directives/ui-butterbar.js"></script>
+    <script src="js/directives/ui-focus.js"></script>
+    <script src="js/directives/ui-fullscreen.js"></script>
+    <script src="js/directives/ui-jq.js"></script>
+    <script src="js/directives/ui-module.js"></script>
+    <script src="js/directives/ui-nav.js"></script>
+    <script src="js/directives/ui-scroll.js"></script>
+    <script src="js/directives/ui-shift.js"></script>
+    <script src="js/directives/ui-toggleclass.js"></script>
+    <script src="js/directives/ui-validate.js"></script>
+    <script src="js/controllers/bootstrap.js"></script>
+    <script src="src/pages/mode/change_password.js"></script>
+    <script src="src/pages/mode/passwdRegular.js"></script>
+    <!-- plugins -->
+    <script src="src/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+    <script src="src/plugins/bootstrap-treeview.min.js"></script>
+    <script src="src/plugins/webuploader.js"></script>
+    <!-- <script src="src/plugins/ver-code.js"></script> -->
+    <!-- Lazy loading -->
+</body>
+
+</html>
