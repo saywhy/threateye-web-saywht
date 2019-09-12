@@ -5,9 +5,23 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
         $scope.login_show = false;
         $scope.code_error = false;
         $scope.user = {};
-        $scope.creat = {};
+        $scope.creat = {
+            username: '',
+            password: '',
+            repassword: ''
+        };
         $scope.NumCode = '';
+        $scope.passwd = {
+            max: '',
+            min: ''
+        }
+        $scope.pwsd_check = {
+            reg: false,
+            length: false,
+        }
+        $scope.tooltip_pop_if = false;
         // $scope.user.inputNumCode = ''; 
+        $scope.getPwdLength();
         $scope.frist_login();
         setTimeout(function () {
             $scope.verCode();
@@ -550,8 +564,6 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
             "retina_detect": true
         });
     }
-
-
     $scope.verCode = function () {
         var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -625,6 +637,49 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
             $('#verifyCanvas').remove();
             $('#code_img').before('<canvas width="100" height="40" id="verifyCanvas"></canvas>')
             verVal = drawCode();
+        }
+    }
+
+    $scope.getPwdLength = function () {
+        $http({
+            method: 'get',
+            url: './yiiapi/site/get-passwd-length'
+        }).then(function successCallback(data) {
+            $scope.passwd.max = data.data.data.max_passwd_len;
+            $scope.passwd.min = data.data.data.min_passwd_len;
+        }, function errorCallback(data) {});
+    }
+    $scope.passwd_focus = function () {
+        $scope.tooltip_pop_if = true;
+        $scope.checkpwsd_length($scope.creat.password);
+        $scope.checkpwsd($scope.creat.password);
+    }
+    $scope.passwd_blur = function () {
+        $scope.tooltip_pop_if = false;
+        $scope.checkpwsd_length($scope.creat.password);
+        $scope.checkpwsd($scope.creat.password);
+    }
+    $scope.change_passwd = function () {
+        $scope.checkpwsd_length($scope.creat.password);
+        $scope.checkpwsd($scope.creat.password);
+    }
+    $scope.checkpwsd = function (pwsd) {
+        var reg = /(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}/;
+        if (reg.test(pwsd)) {
+            $scope.pwsd_check.reg = true;
+        } else {
+            $scope.pwsd_check.reg = false;
+        }
+    }
+    $scope.checkpwsd_length = function (pwsd) {
+        if (pwsd == '' || pwsd == undefined) {
+            $scope.pwsd_check.length = false;
+            return false;
+        }
+        if ($scope.passwd.min < pwsd.length && $scope.passwd.max > pwsd.length) {
+            $scope.pwsd_check.length = true;
+        } else {
+            $scope.pwsd_check.length = false;
         }
     }
     $scope.init();
