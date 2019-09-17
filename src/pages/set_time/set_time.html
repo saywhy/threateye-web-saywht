@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="./src/pages/set_time/set_time.css">
+<div class="set" ng-controller="Set_timeController" ng-init="app.settings.container = false;" ng-cloak>
+    <div class="set_container">
+        <div class="item_box">
+            <span class="title_name">配置方式：</span>
+            <select class="select_style" ng-change="typeChange()" ng-model="selectedName"
+                ng-options="x.value as x.name for x in datatype"></select>
+        </div>
+        <div class="item_box">
+            <span class="title_name">日期选择：</span>
+            <input type="text" ng-click="custom()" class="select_style" id="reservationtime" readonly
+                ng-disabled="timedisabled">
+        </div>
+        <div class="item_box">
+            <span class="title_name">时区选择：</span>
+            <div>
+                <input type="text" class="select_style" ng-focus="zone_focus()" ng-change="zone_change()"
+                    ng-model="time_zone">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div class="item_box">
+            <span class="title_name">NTP时间：</span>
+            <select class="select_style" ng-change="typeChange()" ng-model="selectedName"
+                ng-options="x.value as x.name for x in datatype"></select>
+        </div>
+    </div>
+</div>

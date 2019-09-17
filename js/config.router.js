@@ -51,8 +51,8 @@ angular.module('app')
                         url: '/alarm',
                         params: {
                             'data': null,
-                            'pageNow':null,
-                            'url':null
+                            'pageNow': null,
+                            'url': null
                         },
                         templateUrl: 'src/pages/alarm/alarm.html',
                         resolve: {
@@ -340,42 +340,54 @@ angular.module('app')
                             ]
                         }
                     })
-                        // 设置-审计日志
-                        .state('app.set_log', {
-                            url: '/set_log',
-                            templateUrl: 'src/pages/set_log/set_log.html',
-                            resolve: {
-                                deps: ['$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['src/pages/set_log/set_log.js']);
-                                    }
-                                ]
-                            }
-                        })
-                        // 设置-syslog
-                        .state('app.set_syslog', {
-                            url: '/set_syslog',
-                            templateUrl: 'src/pages/set_syslog/set_syslog.html',
-                            resolve: {
-                                deps: ['$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['src/pages/set_syslog/set_syslog.js']);
-                                    }
-                                ]
-                            }
-                        })
-                        // 设置-测试上传
-                        .state('app.set_basic', {
-                            url: '/set_basic',
-                            templateUrl: 'src/pages/set_basic/set_basic.html',
-                            resolve: {
-                                deps: ['$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['src/pages/set_basic/set_basic.js']);
-                                    }
-                                ]
-                            }
-                        })
+                    // 设置-审计日志
+                    .state('app.set_log', {
+                        url: '/set_log',
+                        templateUrl: 'src/pages/set_log/set_log.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['src/pages/set_log/set_log.js']);
+                                }
+                            ]
+                        }
+                    })
+                    // 设置-syslog
+                    .state('app.set_syslog', {
+                        url: '/set_syslog',
+                        templateUrl: 'src/pages/set_syslog/set_syslog.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['src/pages/set_syslog/set_syslog.js']);
+                                }
+                            ]
+                        }
+                    })
+                    // 设置-系统时间
+                    .state('app.set_time', {
+                        url: '/set_time',
+                        templateUrl: 'src/pages/set_time/set_time.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['src/pages/set_time/set_time.js']);
+                                }
+                            ]
+                        }
+                    })
+                    // 设置-测试上传
+                    .state('app.set_basic', {
+                        url: '/set_basic',
+                        templateUrl: 'src/pages/set_basic/set_basic.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['src/pages/set_basic/set_basic.js']);
+                                }
+                            ]
+                        }
+                    })
                     .state('app.dashboard-v1', {
                         url: '/dashboard-v1',
                         templateUrl: 'tpl/app_dashboard_v1.html',
