@@ -110,6 +110,11 @@
                     <span>白名单</span>
                 </a>
             </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.set_time">
+                    <span>系统选项</span>
+                </a>
+            </li>
             <li ui-sref-active="active" ng-if="menuListShow.set_user">
                 <!-- <li ui-sref-active="active"> -->
                 <a ui-sref="app.set_user">
@@ -152,11 +157,7 @@
                 </a>
             </li>
             <!-- <li ui-sref-active="active" ng-if="menuListShow.set_time"> -->
-            <li ui-sref-active="active">
-                <a ui-sref="app.set_time">
-                    <span>系统时间</span>
-                </a>
-            </li>
+
         </ul>
     </li>
     <li class="line dk"></li>
