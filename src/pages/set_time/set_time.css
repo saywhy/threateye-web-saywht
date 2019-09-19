@@ -4,6 +4,7 @@
     padding: 15px 20px;
     border-radius: 5px;
     overflow: auto;
+    min-height: 300px;
 }
 
 .item_box {
@@ -23,4 +24,37 @@
     border-radius: 5px;
     background: #fff;
     border: 1px solid #999;
+}
+
+.select_box {
+    position: absolute;
+    background: #fff;
+    width: 300px;
+    top: 35px;
+    left: 0;
+    border: 1px solid #999;
+    height: 100px;
+    border-radius: 3px;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.zone_box {
+    float: left;
+    position: relative;
+}
+
+.zone_item_li {
+    cursor: pointer;
+
+}
+
+.zone_item_li:hover {
+    background: #3c8dbc;
+    color: #fff
+}
+
+.zone_item_li:active {
+    background: #3c8dbc;
 }

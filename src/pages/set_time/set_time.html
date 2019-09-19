@@ -13,12 +13,15 @@
         </div>
         <div class="item_box">
             <span class="title_name">时区选择：</span>
-            <div>
-                <input type="text" class="select_style" ng-focus="zone_focus()" ng-change="zone_change()"
-                    ng-model="time_zone">
-                <ul>
-                    <li></li>
-                </ul>
+            <div class="zone_box">
+                <!-- <input type="text" class="select_style" ng-blur="zone_blur()" ng-focus="zone_focus()"
+                    ng-change="zone_change()" ng-model="time_zone">
+                <ul class="select_box" ng-if="time_zone_if">
+                    <li class="zone_item_li" ng-click="choose_item(item)" ng-repeat="item in select_time_zone_list ">
+                        {{item}}</li>
+                </ul> -->
+                <select class="select_style" panelHeight="10" ng-options="x for x in datas"
+                    ng-model="time_zone"></select>
             </div>
         </div>
         <div class="item_box">

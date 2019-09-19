@@ -1,7 +1,6 @@
 app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope', function ($scope, $http, $state, $rootScope) {
     // 初始化
     $scope.init = function () {
-        console.log(6666);
         $scope.datas = ['Africa/Abidjan', 'Africa/Accra', 'Africa/Addis_Ababa',
             'Africa/Asmara', 'Africa/Bamako', 'Africa/Bangui', 'Africa/Banjul',
             'Africa/Bissau', 'Africa/Blantyre', 'Africa/Brazzaville', 'Africa/Bujumbura',
@@ -164,6 +163,8 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
         $scope.selectedName = 'hand';
         // $scope.datapicker();
         $scope.select_time_zone_list = []
+        $scope.time_zone_if = false;
+        $scope.time_zone = 'Africa/Abidjan';
     };
     // 时间插件
     $scope.datapicker = function (choosetime) {
@@ -191,7 +192,18 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
         );
     };
     $scope.zone_focus = function () {
-
+        $scope.time_zone_if = true
+        $scope.select_time_zone_list = $scope.datas;
+        // angular.forEach($scope.datas, function (item) {
+        //     $scope.select_time_zone_list.push(item);
+        // })
+    }
+    // $scope.zone_blur = function () {
+    //     $scope.time_zone_if = false;
+    // }
+    $scope.choose_item = function (item) {
+        $scope.time_zone = item;
+        $scope.time_zone_if = false;
     }
     $scope.zone_change = function () {
 
