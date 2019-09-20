@@ -4,11 +4,12 @@
     padding: 15px 20px;
     border-radius: 5px;
     overflow: auto;
-    min-height: 300px;
+    /* min-height: 300px; */
 }
 
 .item_box {
-    height: 50px;
+    min-height: 50px;
+    overflow: auto;
 }
 
 .title_name {
@@ -19,6 +20,7 @@
 
 .select_style {
     float: left;
+    padding-left: 8px;
     width: 300px;
     height: 34px;
     border-radius: 5px;
@@ -57,4 +59,20 @@
 
 .zone_item_li:active {
     background: #3c8dbc;
+}
+
+.box_item_addr {
+    float: left;
+}
+
+.input_list_box {
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+.addr_icon {
+    margin-left: 8px;
+    margin-top: 8px;
+    width: 20px;
+    cursor: pointer;
 }

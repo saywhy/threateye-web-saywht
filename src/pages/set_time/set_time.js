@@ -164,7 +164,22 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
         // $scope.datapicker();
         $scope.select_time_zone_list = []
         $scope.time_zone_if = false;
-        $scope.time_zone = 'Africa/Abidjan';
+        $scope.time_zone = 'Asia/Shanghai';
+        $scope.choose_if = {
+            time: false,
+            zone: false,
+            ntp: false,
+        }
+        $scope.setting = {
+            time: '',
+            zone: 'Asia/Shanghai',
+            ntp: '',
+        }
+        $scope.allow_ip_list = [{
+            name: "",
+            icon: true
+        }];
+        $scope.get_allow_ip();
     };
     // 时间插件
     $scope.datapicker = function (choosetime) {
@@ -183,30 +198,99 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
                 },
             },
             function (start, end, label) {
-                $scope.startTime = $filter('date')(
-                    start.unix() * 1000,
-                    'yyyy-MM-dd HH:mm:ss'
-                );
-                $scope.timerChoose.startDate = $scope.startTime;
+                console.log(start.unix() * 1000);
+                // $scope.startTime = $filter('date')(
+                //     start.unix() * 1000,
+                //     'yyyy-MM-dd HH:mm:ss'
+                // );
+                // $scope.timerChoose.startDate = $scope.startTime;
             }
         );
     };
-    $scope.zone_focus = function () {
-        $scope.time_zone_if = true
-        $scope.select_time_zone_list = $scope.datas;
-        // angular.forEach($scope.datas, function (item) {
-        //     $scope.select_time_zone_list.push(item);
-        // })
+    // 选择配置方式
+    $scope.typeChange = function () {
+        switch ($scope.selectedName) {
+            case 'hand':
+                $scope.choose_if.time = true;
+                $scope.choose_if.zone = true;
+                $scope.choose_if.ntp = false;
+                break;
+            case 'local':
+                $scope.choose_if.time = false;
+                $scope.choose_if.zone = true;
+                $scope.choose_if.ntp = false;
+                break;
+            case 'ntp':
+                $scope.choose_if.time = false;
+                $scope.choose_if.zone = false;
+                $scope.choose_if.ntp = true;
+                break;
+            default:
+                break;
+        }
     }
-    // $scope.zone_blur = function () {
-    //     $scope.time_zone_if = false;
-    // }
-    $scope.choose_item = function (item) {
-        $scope.time_zone = item;
-        $scope.time_zone_if = false;
+    // 获取可登录IP
+    $scope.get_allow_ip = function () {
+        $http({
+            method: 'get',
+            url: './yiiapi/seting/get-allow-ip'
+        }).then(function successCallback(data) {
+            console.log(data);
+            $scope.allow_ip_list = [];
+            if (data.data.data.length == 0) {
+                $scope.allow_ip_list = [{
+                    name: "",
+                    icon: true
+                }];
+                return false
+            }
+            angular.forEach(data.data.data, function (item, index) {
+                var obj = {
+                    name: item,
+                    icon: false
+                };
+                if (index == data.data.data.length - 1) {
+                    obj.icon = true;
+                }
+                $scope.allow_ip_list.push(obj);
+            })
+        }, function errorCallback(data) {});
     }
-    $scope.zone_change = function () {
+    $scope.del_input = function (index) {
+        $scope.allow_ip_list.splice(index, 1);
+    };
+    $scope.add_input = function (index) {
+        var obj = {
+            name: "",
+            icon: true
+        };
+        $scope.allow_ip_list.push(obj);
+        $scope.allow_ip_list[index].icon = false;
+    };
+    // 修改可登录ip
+    $scope.set_allow_ip = function () {
+        $scope.set_allow_ip_list = [];
+        var loading = zeroModal.loading(4);
+        angular.forEach($scope.allow_ip_list, function (item) {
+            if (item.name != "") {
+                $scope.set_allow_ip_list.push(item.name);
+            }
+        });
+        $http({
+            method: 'put',
+            url: './yiiapi/seting/set-allow-ip',
+            data: {
+                ip: $scope.set_allow_ip_list
+            }
+        }).then(function successCallback(data) {
+            console.log(data);
+            zeroModal.close(loading);
+            if (data.data.status == 0) {
+                zeroModal.success('保存成功！');
+                $scope.get_allow_ip();
+            }
+        }, function errorCallback(data) {});
+    }
 
-    }
     $scope.init();
 }]);

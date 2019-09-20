@@ -209,7 +209,7 @@ angular.module('app')
                                 break;
                         }
                     })
-                    $scope.$apply();
+                    // $scope.$apply();
                 }, function errorCallback(data) {});
             }
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

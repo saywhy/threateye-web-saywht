@@ -9,7 +9,8 @@
                         </div>
                         <div class="box-header with-border" style="border:0">
                             <ul id="myTab" class="nav nav-tabs" ng-init="selected == 0">
-                                <li ng-class="{'active':selected == $index}" ng-click="show($index)" ng-repeat="item in tab_data">
+                                <li ng-class="{'active':selected == $index}" ng-click="show($index)"
+                                    ng-repeat="item in tab_data">
                                     <a data-toggle="tab">
                                         <span ng-bind="item.name"></span>
                                     </a>
@@ -42,11 +43,13 @@
                                             <td ng-bind="item.creatorname" title="{{item.creatorname}}"></td>
                                             <td ng-bind="item.created_at*1000 | date:'yyyy-MM-dd HH:mm'"></td>
                                             <td class="cursor">&nbsp;&nbsp;
-                                                <button class="btn btn-xs btn-default" ng-click="del(item);$event.stopPropagation();"
-                                                    data-toggle="tooltip" title="删除用户">
+                                                <button class="btn btn-xs btn-default"
+                                                    ng-click="del(item);$event.stopPropagation();" data-toggle="tooltip"
+                                                    title="删除用户">
                                                     <i class="fa fa-trash-o"></i>
                                                 </button>
-                                                <button class="btn btn-xs btn-default" ng-click="resetPassword(item);$event.stopPropagation();"
+                                                <button class="btn btn-xs btn-default"
+                                                    ng-click="resetPassword(item);$event.stopPropagation();"
                                                     data-toggle="tooltip" title="重置密码">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
@@ -60,10 +63,12 @@
                                         <!-- angularjs分页 -->
                                         <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
                                             <li>
-                                                <a href="javascript:void(0);" ng-click="getPage(pages.pageNow-1)" ng-if="pages.pageNow>1">上一页</a>
+                                                <a href="javascript:void(0);" ng-click="getPage(pages.pageNow-1)"
+                                                    ng-if="pages.pageNow>1">上一页</a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0);" ng-click="getPage0(1)" ng-if="pages.pageNow>1">1</a>
+                                                <a href="javascript:void(0);" ng-click="getPage0(1)"
+                                                    ng-if="pages.pageNow>1">1</a>
                                             </li>
                                             <li>
                                                 <a href="javascript:void(0);" ng-if="pages.pageNow>4">...</a>
@@ -88,7 +93,8 @@
                                                     ng-bind="pages.pageNow+2" ng-if="pages.pageNow<pages.maxPage-2"></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:void(0);" ng-if="pages.pageNow<pages.maxPage-3">...</a>
+                                                <a href="javascript:void(0);"
+                                                    ng-if="pages.pageNow<pages.maxPage-3">...</a>
                                             </li>
                                             <li>
                                                 <a href="javascript:void(0);" ng-click="getPage0(pages.maxPage)"
@@ -125,13 +131,16 @@
                                             <td ng-bind="item.created_at*1000 | date:'yyyy-MM-dd HH:mm'"></td>
                                             <td ng-bind="item.creatorname"></td>
                                             <td class="cursor">
-                                                <div ng-if="item.name !='admin'&&item.name !='config'&&item.name !='audit'">
+                                                <div
+                                                    ng-if="item.name !='admin'&&item.name !='config'&&item.name !='audit'">
                                                     &nbsp;&nbsp;
-                                                    <button class="btn btn-xs btn-default" ng-click="delRole(item);$event.stopPropagation();"
+                                                    <button class="btn btn-xs btn-default"
+                                                        ng-click="delRole(item);$event.stopPropagation();"
                                                         data-toggle="tooltip" title="删除角色">
                                                         <i class="fa fa-trash-o"></i>
                                                     </button>
-                                                    <button class="btn btn-xs btn-default" ng-click="modRole(item);$event.stopPropagation();"
+                                                    <button class="btn btn-xs btn-default"
+                                                        ng-click="modRole(item);$event.stopPropagation();"
                                                         data-toggle="tooltip" title="修改角色">
                                                         <i class="fa fa-edit"></i>
                                                     </button>
@@ -161,44 +170,44 @@
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">密码长度最小值</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.minPasswd">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.minPasswd">
                                     <span>密码最小长度8-11之间包含大小写字母和数字</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">密码长度最大值</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.maxPasswd">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.maxPasswd">
                                     <span>密码最大长度11-30之间包含大小写字母和数字</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">密码定期修改时间</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.passwdRegular">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.passwdRegular">
                                     <span>（1-90）天</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">管理员最大登录重试次数</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.adminFaildLogon">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.adminFaildLogon">
                                     <span>（1-5）次</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">管理员登录失败阻断时间</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.adminLogonDelay">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.adminLogonDelay">
                                     <span>（1-3600）秒</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">页面超时时间</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.sessionTimeout">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.sessionTimeout">
                                     <span>（1-480）分钟</span>
                                 </div>
                                 <div class="strategy_item">
                                     <span class="strategy_label">管理员同时在线数</span>
-                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled" ng-blur="strategy_num_test()"
-                                        ng-model="policy.adminOnlineCount">
+                                    <input type="number" class="strategy_number" ng-disabled="policy.disabled"
+                                        ng-blur="strategy_num_test()" ng-model="policy.adminOnlineCount">
                                     <span>（1-5）个</span>
                                 </div>
                             </div>
@@ -218,7 +227,7 @@
                                             <input type="password" class="form-control" ng-model="newUser.password">
                                             <p class="help-block">请填写 <span ng-bind="pwdLength.min_passwd_len"></span>
                                                 - <span ng-bind="pwdLength.max_passwd_len"></span>
-                                                位密码,包含大写字母、小写字母、数字、特称字符</p>
+                                                位密码,包含大写字母、小写字母、数字、特殊字符</p>
                                         </div>
                                         <div class="form-group {{repassworderror ? 'has-error':''}}">
                                             <label for="InputVersion">确认密码：</label>
@@ -235,7 +244,9 @@
                                         </div>
                                         <div style="margin-top:20px;">
                                             <label for="InputVersion">管理员IP</label>
-                                            <input class="form-control" placeholder="允许最多指定5个IP地址,每个地址用‘;’隔开" ng-model="newUser.allow_ip">
+                                            <input class="form-control"
+                                                placeholder='最多5个单IP/IP网段，用";"隔开，网段为CIDR格式(192.168.1.0/24)'
+                                                ng-model="newUser.allow_ip">
                                         </div>
                                     </div>
                                 </form>
@@ -247,7 +258,7 @@
                                         <label for="InputVersion">设置密码：</label>
                                         <input type="password" class="form-control" ng-model="resetUser.password">
                                         <p class="help-block">请填写 <span ng-bind="pwdLength.min_passwd_len"></span> -
-                                            <span ng-bind="pwdLength.max_passwd_len"></span> 位密码,包含大写字母、小写字母、数字、特称字符</p>
+                                            <span ng-bind="pwdLength.max_passwd_len"></span> 位密码,包含大写字母、小写字母、数字、特殊字符</p>
                                     </div>
                                     <div class=" {{resetUser_repassworderror ? 'has-error':''}}">
                                         <label for="InputVersion">确认密码：</label>
@@ -257,14 +268,16 @@
                                     <div>
                                         <span>角色：</span>
                                         <span ng-repeat="item in resetRoleList">
-                                            <input type='radio' value="{{item.name}}" ng-model="$parent.resetSelectValue"
-                                                style="margin: 4px 4px 4px 15px" />
+                                            <input type='radio' value="{{item.name}}"
+                                                ng-model="$parent.resetSelectValue" style="margin: 4px 4px 4px 15px" />
                                             <span>{{item.name}}</span>
                                         </span>
                                     </div>
                                     <div>
                                         <label for="InputVersion">管理员IP</label>
-                                        <input class="form-control" placeholder="允许最多指定5个IP地址,每个地址用‘;’隔开" ng-model="resetUser.allow_ip">
+                                        <input class="form-control"
+                                            placeholder='最多5个单IP/IP网段，用";"隔开，网段为CIDR格式(192.168.1.0/24)'
+                                            ng-model="resetUser.allow_ip">
                                     </div>
                                 </div>
                             </div>
@@ -280,12 +293,13 @@
                                     <div style="display: inline-block">
                                         <span class="marigin_name">角色权限</span>
                                     </div>
-
                                     <div class="select_todolist">
                                         <div ng-repeat="todotype in todolist">
                                             <div class="" style="display: flex;">
-                                                <div class="" style="width: 90px;padding: 1px 5px;line-height: 25px;height: 28px;border-radius: 3px">
-                                                    <input style="margin-bottom: 8px;" type="checkbox" ng-model="$parent.selectAll[$index]"
+                                                <div class=""
+                                                    style="width: 90px;padding: 1px 5px;line-height: 25px;height: 28px;border-radius: 3px">
+                                                    <input style="margin-bottom: 8px;" type="checkbox"
+                                                        ng-model="$parent.selectAll[$index]"
                                                         ng-click="changeAll($index)" />
                                                     <span style="font-weight: 600;">
                                                         {{todotype.type}}
@@ -293,11 +307,13 @@
                                                 </div>
                                                 <div class="" style="padding-left: 5px;width: 100%;">
                                                     <div class="row">
-                                                        <div class="col-md-2 col-sm-2" ng-repeat="obj in todolist[$index].permissionList"
+                                                        <div class="col-md-2 col-sm-2"
+                                                            ng-repeat="obj in todolist[$index].permissionList"
                                                             style="margin-bottom: 5px;padding: 2px;width: 110px;">
                                                             <input type="checkbox" ng-click="funcChange($parent.$index)"
                                                                 ng-model="obj.isSelected" />
-                                                            <span style="line-height: 25px;width: 80px;">{{obj.name}}</span>
+                                                            <span
+                                                                style="line-height: 25px;width: 80px;">{{obj.name}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -308,7 +324,8 @@
                                 <div class="addrole_item">
                                     <span class="marigin_name">角色描述</span>
                                     <textarea rows="5" cols="40" maxlength="200" ng-model="addRole.description"
-                                        onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)"
+                                        onchange="this.value=this.value.substring(0, 200)"
+                                        onkeydown="this.value=this.value.substring(0, 200)"
                                         onkeyup="this.value=this.value.substring(0, 200)" class="role_textarea">
                                    </textarea>
                                 </div>
@@ -330,8 +347,10 @@
                                     <div class="select_todolist">
                                         <div ng-repeat="todotype in todolist">
                                             <div class="" style="display: flex;">
-                                                <div class="" style="width: 90px;padding: 1px 5px;line-height: 25px;height: 28px;border-radius: 3px">
-                                                    <input style="margin-bottom: 8px;" type="checkbox" ng-model="$parent.selectAll[$index]"
+                                                <div class=""
+                                                    style="width: 90px;padding: 1px 5px;line-height: 25px;height: 28px;border-radius: 3px">
+                                                    <input style="margin-bottom: 8px;" type="checkbox"
+                                                        ng-model="$parent.selectAll[$index]"
                                                         ng-click="changeAll($index)" />
                                                     <span style="font-weight: 600;">
                                                         {{todotype.type}}
@@ -339,11 +358,13 @@
                                                 </div>
                                                 <div class="" style="padding-left: 5px;width: 100%;">
                                                     <div class="row">
-                                                        <div class="col-md-2 col-sm-2" ng-repeat="obj in todolist[$index].permissionList"
+                                                        <div class="col-md-2 col-sm-2"
+                                                            ng-repeat="obj in todolist[$index].permissionList"
                                                             style="margin-bottom: 5px;padding: 2px;width: 110px;">
                                                             <input type="checkbox" ng-click="funcChange($parent.$index)"
                                                                 ng-model="obj.isSelected" />
-                                                            <span style="line-height: 25px;width: 80px;">{{obj.name}}</span>
+                                                            <span
+                                                                style="line-height: 25px;width: 80px;">{{obj.name}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -354,7 +375,8 @@
                                 <div class="addrole_item">
                                     <span class="marigin_name">角色描述</span>
                                     <textarea rows="5" cols="40" maxlength="200" ng-model="mod_role.description"
-                                        onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)"
+                                        onchange="this.value=this.value.substring(0, 200)"
+                                        onkeydown="this.value=this.value.substring(0, 200)"
                                         onkeyup="this.value=this.value.substring(0, 200)" class="role_textarea">
                                    </textarea>
                                 </div>

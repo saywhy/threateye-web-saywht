@@ -6,12 +6,12 @@
             <select class="select_style" ng-change="typeChange()" ng-model="selectedName"
                 ng-options="x.value as x.name for x in datatype"></select>
         </div>
-        <div class="item_box">
+        <div class="item_box" ng-if="choose_if.time">
             <span class="title_name">日期选择：</span>
             <input type="text" ng-click="custom()" class="select_style" id="reservationtime" readonly
                 ng-disabled="timedisabled">
         </div>
-        <div class="item_box">
+        <div class="item_box" ng-if="choose_if.zone">
             <span class="title_name">时区选择：</span>
             <div class="zone_box">
                 <!-- <input type="text" class="select_style" ng-blur="zone_blur()" ng-focus="zone_focus()"
@@ -21,19 +21,32 @@
                         {{item}}</li>
                 </ul> -->
                 <select class="select_style" panelHeight="10" ng-options="x for x in datas"
-                    ng-model="time_zone"></select>
+                    ng-model="setting.zone"></select>
             </div>
         </div>
-        <div class="item_box">
-            <span class="title_name">NTP时间：</span>
-            <select class="select_style" ng-change="typeChange()" ng-model="selectedName"
-                ng-options="x.value as x.name for x in datatype"></select>
+        <div class="item_box" ng-if="choose_if.ntp">
+            <span class="title_name">NTP服务器：</span>
+            <input type="text" class="select_style" ng-model="setting.ntp">
         </div>
+        <div class="button_save">
+            <button class="btn btn-primary" ng-click="save()">保存</button>
+        </div>
+    </div>
+    <div class="set_container">
         <div class="item_box">
             <span class="title_name">登录IP地址设置：</span>
-            <input type="text" class="select_style">
-            <!-- <select class="select_style" ng-change="typeChange()" ng-model="selectedName"
-                ng-options="x.value as x.name for x in datatype"></select> -->
+            <div class="box_item_addr">
+                <div class="input_list_box" ng-repeat="item in allow_ip_list">
+                    <input class="select_style" type="text" ng-model="item.name">
+                    <img src="../src/images/icos/dell.png" class="addr_icon" ng-click="del_input($index)"
+                        ng-if="!item.icon" alt="">
+                    <img src="../src/images/icos/add.png" class="addr_icon" ng-click="add_input($index)"
+                        ng-if="item.icon" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="button_save">
+            <button class="btn btn-primary" ng-click="set_allow_ip()">保存</button>
         </div>
     </div>
 </div>
