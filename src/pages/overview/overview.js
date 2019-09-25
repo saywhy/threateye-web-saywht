@@ -34,7 +34,6 @@ app.controller('OverViemController', ['$scope', '$http', '$state', '$modal', '$r
             url: './yiiapi/site/menu'
         }).success(function (data) {
             console.log(data);
-
         }).error(function (err) {
             console.log(err);
         })
@@ -153,7 +152,6 @@ app.controller('OverViemController', ['$scope', '$http', '$state', '$modal', '$r
                     }, 100);
                 };
             } else if (data.status == 600) {
-                console.log(data.msg);
                 zeroModal.error(data.msg);
             } else {
                 zeroModal.error(data.msg);
@@ -171,7 +169,6 @@ app.controller('OverViemController', ['$scope', '$http', '$state', '$modal', '$r
             method: 'GET',
             url: './yiiapi/alert/flow-file-statistics'
         }).success(function (data) {
-            console.log(data);
             $scope.flow_file = {};
             if (data.status == 0) {
                 $scope.flow_file = data.data;
@@ -1116,8 +1113,6 @@ app.controller('OverViemController', ['$scope', '$http', '$state', '$modal', '$r
         }).success(function (data) {
             if (data.status == 0) {
                 $scope.top_threaten_data = data.data
-                console.log($scope.top_threaten_data);
-
             } else if (data.status == 600) {
                 console.log(data.msg);
             } else {
@@ -1185,10 +1180,8 @@ app.controller('OverViemController', ['$scope', '$http', '$state', '$modal', '$r
             method: 'get',
             url: './yiiapi/alert/list-top5',
         }).success(function (data) {
-            console.log(data);
             if (data.status == 0) {
                 $scope.new_alarm_data = data.data;
-                console.log($scope.new_alarm_data);
             } else if (data.status == 600) {
                 console.log(data.msg);
             } else {

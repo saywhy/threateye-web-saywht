@@ -76,3 +76,8 @@
     width: 20px;
     cursor: pointer;
 }
+
+.background {
+    background: rgba(153, 153, 153, .5);
+    color: #333;
+}

@@ -1,4 +1,4 @@
-app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope', function ($scope, $http, $state, $rootScope) {
+app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope', '$filter', function ($scope, $http, $state, $rootScope, $filter) {
     // 初始化
     $scope.init = function () {
         $scope.datas = ['Africa/Abidjan', 'Africa/Accra', 'Africa/Addis_Ababa',
@@ -166,9 +166,9 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
         $scope.time_zone_if = false;
         $scope.time_zone = 'Asia/Shanghai';
         $scope.choose_if = {
-            time: false,
-            zone: false,
-            ntp: false,
+            time: true,
+            zone: true,
+            ntp: true,
         }
         $scope.setting = {
             time: '',
@@ -179,12 +179,13 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
             name: "",
             icon: true
         }];
+        $scope.get_seting();
         $scope.get_allow_ip();
     };
     // 时间插件
     $scope.datapicker = function (choosetime) {
         $('#reservationtime').daterangepicker({
-                startDate: choosetime.startDate,
+                startDate: choosetime,
                 singleDatePicker: true,
                 // showDropdowns: true, //当设置值为true的时候，允许年份和月份通过下拉框的形式选择
                 // autoApply: false, // true不用点击Apply或者应用按钮就可以直接取得选中的日期
@@ -198,12 +199,11 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
                 },
             },
             function (start, end, label) {
-                console.log(start.unix() * 1000);
-                // $scope.startTime = $filter('date')(
-                //     start.unix() * 1000,
-                //     'yyyy-MM-dd HH:mm:ss'
-                // );
-                // $scope.timerChoose.startDate = $scope.startTime;
+                $scope.setting.time = $filter('date')(
+                    start.unix() * 1000,
+                    'yyyy-MM-dd HH:mm:ss'
+                );
+                console.log($scope.setting.time);
             }
         );
     };
@@ -211,19 +211,19 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
     $scope.typeChange = function () {
         switch ($scope.selectedName) {
             case 'hand':
-                $scope.choose_if.time = true;
-                $scope.choose_if.zone = true;
-                $scope.choose_if.ntp = false;
-                break;
-            case 'local':
-                $scope.choose_if.time = false;
-                $scope.choose_if.zone = true;
-                $scope.choose_if.ntp = false;
-                break;
-            case 'ntp':
                 $scope.choose_if.time = false;
                 $scope.choose_if.zone = false;
                 $scope.choose_if.ntp = true;
+                break;
+            case 'local':
+                $scope.choose_if.time = true;
+                $scope.choose_if.zone = false;
+                $scope.choose_if.ntp = true;
+                break;
+            case 'ntp':
+                $scope.choose_if.time = true;
+                $scope.choose_if.zone = true;
+                $scope.choose_if.ntp = false;
                 break;
             default:
                 break;
@@ -235,7 +235,6 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
             method: 'get',
             url: './yiiapi/seting/get-allow-ip'
         }).then(function successCallback(data) {
-            console.log(data);
             $scope.allow_ip_list = [];
             if (data.data.data.length == 0) {
                 $scope.allow_ip_list = [{
@@ -290,6 +289,99 @@ app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope',
                 $scope.get_allow_ip();
             }
         }, function errorCallback(data) {});
+    }
+    // 获取ntp配置
+    $scope.get_seting = function () {
+        $http({
+            method: 'get',
+            url: './yiiapi/seting/time-synchronization'
+        }).then(function successCallback(data) {
+            $scope.setting_data = data.data.data.data[0]
+            console.log($scope.setting_data);
+            switch ($scope.setting_data.type) {
+                case 1:
+                    $scope.selectedName = 'hand';
+                    $scope.choose_if.time = false;
+                    $scope.choose_if.zone = false;
+                    $scope.choose_if.ntp = true;
+                    break;
+                case 2:
+                    $scope.selectedName = 'local';
+                    $scope.choose_if.time = true;
+                    $scope.choose_if.zone = false;
+                    $scope.choose_if.ntp = true;
+                    break;
+                case 3:
+                    $scope.selectedName = 'ntp';
+                    $scope.choose_if.time = true;
+                    $scope.choose_if.zone = true;
+                    $scope.choose_if.ntp = false;
+                    break;
+                default:
+                    $scope.selectedName = 'hand';
+                    $scope.choose_if.time = false;
+                    $scope.choose_if.zone = false;
+                    $scope.choose_if.ntp = true;
+                    break;
+            }
+            $scope.setting = {
+                time: $scope.setting_data.time,
+                zone: $scope.setting_data.zone,
+                ntp: $scope.setting_data.server,
+            }
+
+            $scope.datapicker($scope.setting_data.time);
+        }, function errorCallback(data) {});
+    }
+    // 保存配置
+    $scope.set_save = function () {
+        switch ($scope.selectedName) {
+            case 'hand':
+                var loading = zeroModal.loading(4);
+                $http({
+                    method: 'put',
+                    url: './yiiapi/seting/manual-time-synchronization',
+                    data: {
+                        time: $scope.setting.time,
+                        zone: $scope.setting.zone
+                    }
+                }).then(function successCallback(data) {
+                    zeroModal.close(loading);
+                    console.log(data);
+                    if (data.data.status == 0) {
+                        zeroModal.success('保存成功！');
+                    }
+                }, function errorCallback(data) {});
+                break;
+            case 'local':
+                var loading = zeroModal.loading(4);
+                $http({
+                    method: 'put',
+                    url: './yiiapi/seting/local-time-synchronization',
+                    data: {
+                        zone: $scope.setting.zone
+                    }
+                }).then(function successCallback(data) {
+                    zeroModal.close(loading);
+                    console.log(data);
+                }, function errorCallback(data) {});
+                break;
+            case 'ntp':
+                var loading = zeroModal.loading(4);
+                $http({
+                    method: 'put',
+                    url: './yiiapi/seting/ntp-time-synchronization',
+                    data: {
+                        server: $scope.setting.ntp,
+                    }
+                }).then(function successCallback(data) {
+                    zeroModal.close(loading);
+                    console.log(data);
+                }, function errorCallback(data) {});
+                break;
+            default:
+                break;
+        }
     }
 
     $scope.init();
