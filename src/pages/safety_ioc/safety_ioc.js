@@ -17,7 +17,7 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
         $("#avatar").change(function (target) {
             var file = document.getElementById('avatar').files[0];
             $("#avatval").val(file.name);
-
+            console.log('222');
             $http({
                 method: 'get',
                 url: './yiiapi/site/check-auth-exist',
@@ -25,28 +25,26 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
                     pathInfo: 'investigate/upload-file'
                 }
             }).success(function (data) {
+                console.log('111');
+                console.log(data);
                 if (data.status == 0) {
                     if (target.target.value) {
                         if (target.target.value.split('.')[1].indexOf('txt') == -1 && target.target.value.split('.')[1].indexOf('ioc') == -1) {
                             zeroModal.error(' 请重新选择.txt或.ioc格式的文件上传');
-                            $scope.$apply(function () {
-                                $scope.upload_true = true;
-                            })
+                            $scope.upload_true = true;
                         } else {
-                            $scope.$apply(function () {
-                                $scope.upload_true = false;
-                            })
+                            $scope.upload_true = false;
                         }
                     }
                 }
                 if (data.status == 401) {
                     zeroModal.error(data.msg);
                 }
-        
+
             }).error(function (error) {
                 console.log(error);
             })
-          
+
 
         });
         $scope.progress_if = false;
@@ -78,15 +76,15 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
             }).success(function (data) {
                 if (data.status == 0) {
                     $scope.pages = data.data;
-                    if($scope.pages.data.length !=0){
+                    if ($scope.pages.data.length != 0) {
                         angular.forEach($scope.pages.data, function (item, index) {
                             item.create_percent = item.create_percent + '%';
                         });
                     }
-                }else if(data.status==600){
+                } else if (data.status == 600) {
                     console.log(data.msg);
                     zeroModal.error(data.msg);
-                }else{
+                } else {
                     zeroModal.error(data.msg);
                 }
             }).error(function () {
@@ -115,11 +113,11 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
                         if (data.status == 401) {
                             zeroModal.error(data.msg);
                         }
-    
+
                     }).error(function (error) {
                         console.log(error);
                     })
-                   
+
                 },
                 cancelFn: function () {}
             });
@@ -134,16 +132,17 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
         }).success(function (data) {
             console.log(data);
             if (data.status == 0) {
-                 download_now();
-            }else if(data.status==600){
+                download_now();
+            } else if (data.status == 600) {
                 console.log(data.msg);
-            }else{
+            } else {
                 zeroModal.error(data.msg);
             }
         }).error(function (error) {
             console.log(error);
         })
-        function download_now(){
+
+        function download_now() {
             var tt = new Date().getTime();
             var url = './yiiapi/investigate/download-ioc-template';
             var form = $("<form>"); //定义一个form表单
@@ -189,9 +188,9 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
             success: function (res) {
                 // console.log(res);
                 // console.log(typeof(res));
-                 if(typeof(res) == 'string'){
-                      res = JSON.parse(res);
-                 };
+                if (typeof (res) == 'string') {
+                    res = JSON.parse(res);
+                };
                 // res = JSON.parse(res);
                 if (res.status == 0) {
                     zeroModal.success('上传成功');
@@ -202,14 +201,14 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
                         $("#upload")[0].reset();
                     })
                     $scope.getPage();
-                    for (var i=0;i<10;i++) {
-                        setTimeout(function(){
+                    for (var i = 0; i < 10; i++) {
+                        setTimeout(function () {
                             $scope.getPage();
-                        },i*5000); 
+                        }, i * 5000);
                     }
-                } else if(data.status==600){
+                } else if (data.status == 600) {
                     console.log(data.msg);
-                }else {
+                } else {
                     zeroModal.error(res.msg);
                 }
             },
@@ -227,10 +226,10 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
     };
     //下载列表文件
     $scope.download = function (item) {
-        if(item.create_status!='1'){
+        if (item.create_status != '1') {
             // 未成功
             zeroModal.error('文件未搜索完毕，不能进行下载或删除操作，请稍后再试！');
-        }else{
+        } else {
             zeroModal.confirm({
                 content: "确定下载吗？",
                 okFn: function () {
@@ -257,9 +256,9 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
                             input1.attr("value", item.id);
                             form.append(input1);
                             form.submit(); //表单提交
-                        } else if(data.status==600){
+                        } else if (data.status == 600) {
                             console.log(data.msg);
-                        }else {
+                        } else {
                             zeroModal.error(data.msg);
                         }
                     }).error(function (error) {
@@ -272,38 +271,38 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
     };
     //删除列表数据
     $scope.del = function (item) {
-        if(item.create_status!='1'){
+        if (item.create_status != '1') {
             // 未成功
             zeroModal.error('文件未搜索完毕，不能进行下载或删除操作，请稍后再试！');
-        }else{
-        zeroModal.confirm({
-            content: "确定删除吗？",
-            okFn: function () {
-                var loading = zeroModal.loading(4);
-                $http({
-                    method: 'delete',
-                    url: './yiiapi/investigate/ioc-scanning-del',
-                    data: {
-                        'id': item.id
-                    }
-                }).success(function (data) {
-                    // console.log(data);
-                    if (data.status == 0) {
-                        zeroModal.success('删除成功');
-                        $scope.getPage();
-                    } else if(data.status==600){
-                        console.log(data.msg);
-                    }else {
-                        zeroModal.error(data.msg);
-                    }
-                    zeroModal.close(loading);
-                }).error(function () {
-                    zeroModal.close(loading);
-                    zeroModal.error('删除失败');
-                })
-            },
-            cancelFn: function () {}
-        });
+        } else {
+            zeroModal.confirm({
+                content: "确定删除吗？",
+                okFn: function () {
+                    var loading = zeroModal.loading(4);
+                    $http({
+                        method: 'delete',
+                        url: './yiiapi/investigate/ioc-scanning-del',
+                        data: {
+                            'id': item.id
+                        }
+                    }).success(function (data) {
+                        // console.log(data);
+                        if (data.status == 0) {
+                            zeroModal.success('删除成功');
+                            $scope.getPage();
+                        } else if (data.status == 600) {
+                            console.log(data.msg);
+                        } else {
+                            zeroModal.error(data.msg);
+                        }
+                        zeroModal.close(loading);
+                    }).error(function () {
+                        zeroModal.close(loading);
+                        zeroModal.error('删除失败');
+                    })
+                },
+                cancelFn: function () {}
+            });
         }
     };
 
