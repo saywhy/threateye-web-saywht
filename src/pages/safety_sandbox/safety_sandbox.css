@@ -1,0 +1,33 @@
+.upload_box {
+    width: 280px;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+.upload_img {
+    width: 200px;
+    height: 200px;
+}
+
+.upload_text {
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+}
+
+.item_box_upload {
+    position: relative;
+    width: 100%;
+    height: 230px;
+}
+
+.upload_box>.webuploader-pick {
+    background: none;
+}
+
+.color_red {
+    color: red;
+}

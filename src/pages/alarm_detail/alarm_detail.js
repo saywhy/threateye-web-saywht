@@ -149,6 +149,9 @@ app.controller("Alarm_detailController", [
         };
         // 匹配情报类型
         $scope.switch_type = function (params, content) {
+            console.log(params);
+            console.log(content);
+
             $scope.whois_list = [];
             $scope.urls_if = false;
             $scope.whois_if = false;
@@ -362,7 +365,7 @@ app.controller("Alarm_detailController", [
                         },
                         {
                             key: "常见文件名",
-                            value: content.file_names,
+                            value: content.file_name,
                         },
                         {
                             key: "威胁类型",
@@ -552,11 +555,35 @@ app.controller("Alarm_detailController", [
                             value: content.threat,
                         },
                     ];
+                    if (content.category == '恶意程序') {
+                        $scope.threat.sdk.push({
+                            key: "文件下载",
+                            value: '点击下载',
+                            md5: content.md5
+                        })
+                    }
                     $scope.detail_infos = $scope.threat.sdk;
                     break;
                 case "sandbox": // 三 当告警来源是沙箱的时候
                     $scope.sandbox_if = true;
+                    if (content.size) {
+                        if (content.size < 1024) {
+                            content.size = content.size + "B";
+                        }
+                        if (content.size >= 1024 && content.size < 1024 * 1024) {
+                            content.size =
+                                $filter("number")(content.size / 1024, 2) + "KB";
+                        }
+                        if (content.size >= 1024 * 1024) {
+                            content.size =
+                                $filter("number")(content.size / (1024 * 1024), 2) + "MB";
+                        }
+                    }
                     $scope.threat.sandbox = [{
+                            key: "威胁类型",
+                            value: content.category,
+                        },
+                        {
                             key: "文件名",
                             value: content.filename,
                         },
@@ -580,23 +607,31 @@ app.controller("Alarm_detailController", [
                             key: "SHA256",
                             value: content.sha256,
                         },
-                        {
-                            key: "CRC32",
-                            value: content.crc32,
-                        },
-                        {
-                            key: "ssdeep",
-                            value: content.ssdeep,
-                        },
-                        {
-                            key: "Yara检测",
-                            value: content.yara,
-                        },
+                        // {
+                        //     key: "CRC32",
+                        //     value: content.crc32,
+                        // },
+                        // {
+                        //     key: "ssdeep",
+                        //     value: content.ssdeep,
+                        // },
+                        // {
+                        //     key: "Yara检测",
+                        //     value: content.yara,
+                        // },
                     ];
+                    if (content.category == '恶意程序') {
+                        $scope.threat.sandbox.push({
+                            key: "文件下载",
+                            value: '点击下载',
+                            md5: content.md5
+                        })
+                    }
                     $scope.threat.sandboxSignatures = content.Signatures;
                     $scope.detail_infos = [];
                     break;
                 case "yara": // 四 当告警来源是YARA的时候
+                    console.log('yara');
                     if (content.file_size) {
                         if (content.file_size < 1024) {
                             content.file_size = content.file_size + "B";
@@ -627,6 +662,13 @@ app.controller("Alarm_detailController", [
                             value: content.rule_name,
                         },
                     ];
+                    if (content.file_type == '恶意程序') {
+                        $scope.threat.yara.push({
+                            key: "文件下载",
+                            value: '点击下载',
+                            md5: content.md5
+                        })
+                    }
                     $scope.detail_infos = $scope.threat.yara;
                     break;
                 case "IDS": // 五 当告警来源是IDS的时候
@@ -650,8 +692,9 @@ app.controller("Alarm_detailController", [
             }
         };
 
-        $scope.download_payload = function (name) {
-            if (name == "点击下载") {
+        $scope.download_payload = function (item) {
+            console.log(item);
+            if (item.value == "点击下载" && item.key == "PayLoad信息") {
                 var funDownload = function (content, filename) {
                     // 创建隐藏的可下载链接
                     var eleLink = document.createElement("a");
@@ -668,7 +711,37 @@ app.controller("Alarm_detailController", [
                 };
                 funDownload($scope.payload_text, "payload.dat");
             }
+            if (item.value == "点击下载" && item.key == '文件下载') {
+                console.log(item);
+                window.open('/yiiapi/alert/get-file?md5=' + item.md5);
+            }
         };
+        $scope.download_sandbox = function (arr, data) {
+            var funDownload = function (content, filename) {
+                // 创建隐藏的可下载链接
+                var eleLink = document.createElement("a");
+                eleLink.download = filename;
+                eleLink.style.display = "none";
+                // 字符内容转变成blob地址
+                var blob = new Blob([content]);
+                eleLink.href = URL.createObjectURL(blob);
+                // 触发点击
+                document.body.appendChild(eleLink);
+                eleLink.click();
+                // 然后移除
+                document.body.removeChild(eleLink);
+            };
+            var str = ''
+            angular.forEach(arr, function (item) {
+                str += item.description + '\r\n'
+            })
+            angular.forEach(data, function (item) {
+                if (item.key == 'MD5') {
+                    $scope.sb_flie_name = item.value
+                }
+            })
+            funDownload(str, $scope.sb_flie_name + ".log");
+        }
         // 匹配网络事件
         $scope.switch_network = function (network_events) {
             $scope.network_events.smtp_if = false;

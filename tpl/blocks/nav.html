@@ -39,6 +39,11 @@
             <span class="font-bold">安全调查</span>
         </a>
         <ul class="nav nav-sub dk">
+            <li ui-sref-active="active" ng-if="menuListShow.safety_sandbox">
+                <a ui-sref="app.safety_sandbox">
+                    <span>沙箱</span>
+                </a>
+            </li>
             <li ui-sref-active="active" ng-if="menuListShow.safety_dns">
                 <a ui-sref="app.safety_dns">
                     <span>DNS调查</span>

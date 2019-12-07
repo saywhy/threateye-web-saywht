@@ -186,12 +186,9 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
             processData: false, // 告诉jQuery不要去处理发送的数据
             contentType: false, // 告诉jQuery不要去设置Content-Type请求头
             success: function (res) {
-                // console.log(res);
-                // console.log(typeof(res));
                 if (typeof (res) == 'string') {
                     res = JSON.parse(res);
                 };
-                // res = JSON.parse(res);
                 if (res.status == 0) {
                     zeroModal.success('上传成功');
                     $scope.$apply(function () {
@@ -215,8 +212,6 @@ app.controller('Safety_iocController', ['$scope', '$http', '$state', '$rootScope
             error: function (err) {
                 $('#progress')[0].style = 'width:0%';
                 $scope.progress_if = false;
-                console.log(err);
-                alert("网络连接失败,稍后重试", err);
             }
         })
     };

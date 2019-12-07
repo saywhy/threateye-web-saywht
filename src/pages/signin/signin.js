@@ -41,6 +41,7 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
             safety_direction: false,
             safety_host: false,
             safety_ioc: false,
+            safety_sandbox: false,
             reportform: false,
             set: false,
             set_net_ip: false,
@@ -108,6 +109,8 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
                 // 创建成功，显示登录页面登录
                 if (data.data.status == 0) {
                     zeroModal.success('创建管理员成功!');
+                    localStorage.setItem('username_admin', $scope.creat.username);
+                    $scope.app.username_admin = $scope.creat.username;
                 } else if (data.data.status == 202) {
                     $http({
                         method: 'get',
@@ -162,6 +165,9 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
                                     break;
                                 case '60':
                                     $rootScope.menuListShow.safety_ioc = true;
+                                    break;
+                                case '154':
+                                    $rootScope.menuListShow.safety_sandbox = true;
                                     break;
                                 case '68':
                                     $rootScope.menuListShow.reportform = true;
@@ -238,6 +244,8 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
             }).then(function successCallback(data) {
                 // 登陆成功
                 if (data.data.status == 0 || data.data.status == 202) {
+                    localStorage.setItem('username_admin', $scope.user.username);
+                    $scope.app.username_admin = $scope.user.username;
                     // 获取用户菜单权限
                     $http({
                         method: 'get',
@@ -293,6 +301,9 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
                                     break;
                                 case '60':
                                     $rootScope.menuListShow.safety_ioc = true;
+                                    break;
+                                case '154':
+                                    $rootScope.menuListShow.safety_sandbox = true;
                                     break;
                                 case '68':
                                     $rootScope.menuListShow.reportform = true;
@@ -373,6 +384,9 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
                                 case '60':
                                     $state.go('app.safety_ioc');
                                     break;
+                                case '154':
+                                    $state.go('app.safety_sandbox');
+                                    break;
                                 case '75':
                                     $state.go('app.set_net_ip');
                                     break;
@@ -440,13 +454,8 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
             method: 'get',
             url: './yiiapi/site/check-passwd-reset'
         }).then(function successCallback(data) {
-            // $rootScope.passwdRegular('lg');
-            // console.log(data.data);
-            if (data.data.status == 0) {
-                //    zeroModal.error(data.msg)
-            } else if (data.data.status == 600) {
+            if (data.data.status == 0) {} else if (data.data.status == 600) {
                 console.log(data.data.msg);
-                // $scope.change_password('lg');
                 zeroModal.error(data.data.msg)
             }
         }, function errorCallback(data) {});

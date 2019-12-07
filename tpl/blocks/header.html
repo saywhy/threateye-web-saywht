@@ -8,24 +8,16 @@
     </button>
     <!-- brand -->
     <a class="navbar-brand text-lt">
-        <!-- <i class="fa fa-btc"></i> -->
         <img src="../../src/images/icos/logo.png" alt="." style="display: inline-block">
         <span class="hidden-folded m-l-xs">{{app.title}}</span>
     </a>
-    <!-- / brand -->
 </div>
-<!-- / navbar header -->
 
-<!-- navbar collapse -->
 <div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}">
-    <!-- buttons -->
     <div class="nav navbar-nav hidden-xs">
         <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
             <i class="fa {{app.settings.asideFolded ? 'fa-indent' : 'fa-dedent'}} fa-fw"></i>
         </a>
-        <!-- <a href class="btn no-shadow navbar-btn" ui-toggle-class="show" target="#aside-user">
-            <i class="icon-user fa-fw"></i>
-          </a> -->
     </div>
     <ul class="nav navbar-nav navbar-right">
         <!-- 全屏 -->
@@ -39,7 +31,7 @@
                     <!-- <img src="img/a0.jpg" alt="..."> -->
                     <!-- <i class="on md b-white bottom"></i> -->
                 </span>
-                <span class="hidden-sm hidden-md" ng-bind="user_name">admin</span>
+                <span class="hidden-sm hidden-md">{{app.username_admin}}</span>
                 <b class="caret"></b>
             </a>
             <!-- dropdown -->

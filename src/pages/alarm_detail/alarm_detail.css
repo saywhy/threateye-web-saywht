@@ -60,11 +60,11 @@
 
 .alarm_detail .part p {
     margin: 0;
-    height: 30px;
+    height: auto;
     line-height: 30px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow: auto;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .alarm_detail .part_detail_span {
@@ -72,7 +72,7 @@
 }
 
 .alarm_detai_span {
-    width: 50px;
+    width: 75px;
     display: inline-block;
 }
 
@@ -119,16 +119,7 @@ li {
     list-style-type: none;
 }
 
-.time_content_li {
-    min-height: 30px;
-    line-height: 30px;
-}
 
-.time_content_span_title {
-    display: inline-block;
-    width: 150px;
-    margin-right: 10px;
-}
 
 .li_hover:hover {
     color: #3c8dbc;
@@ -170,22 +161,71 @@ li {
 }
 
 
-.class{
-    color: rgba(255,128,0,1);
-    color: rgba(0,0,255,1);
-    color: rgba(128,0,255,1);
+.class {
+    color: rgba(255, 128, 0, 1);
+    color: rgba(0, 0, 255, 1);
+    color: rgba(128, 0, 255, 1);
 }
 
-.alarm_detail_tdcontent{
-    word-wrap:break-word !important;
-    word-break:break-all !important;
-    white-space:normal
+.alarm_detail_tdcontent {
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    white-space: normal
 }
-.urls_style{
-    float: left;
-}
-.payload{
+
+
+.payload {
     color: #3c8dbc;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.time_content_li {
+    margin: 0;
+    height: auto;
+    min-height: 30px;
+    line-height: 30px;
+    overflow: auto;
+    word-wrap: break-word;
+    word-break: break-all;
+    display: flex;
+}
+
+.whois_box {
+    flex: 1;
+}
+
+.time_content_span_title {
+    float: left;
+    width: 150px;
+    margin-right: 10px;
+}
+
+.time_content_span_value {
+    float: left;
+    height: auto;
+}
+
+.whois_content_span_title {
+    width: 150px;
+    margin-right: 10px;
+}
+
+.whois_content_span_value {
+    flex: 1
+}
+
+.whois_content_li {
+    margin: 0;
+    height: auto;
+    min-height: 30px;
+    line-height: 30px;
+    overflow: auto;
+    word-wrap: break-word;
+    word-break: break-all;
+    display: flex;
+}
+
+.common_value {
+    flex: 1;
 }

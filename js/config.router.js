@@ -220,6 +220,18 @@ angular.module('app')
                             ]
                         }
                     })
+                    // 安全调查-沙箱
+                    .state('app.safety_sandbox', {
+                        url: '/safety_sandbox',
+                        templateUrl: 'src/pages/safety_sandbox/safety_sandbox.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['src/pages/safety_sandbox/safety_sandbox.js']);
+                                }
+                            ]
+                        }
+                    })
                     // 报表
                     .state('app.reportform', {
                         url: '/reportform',

@@ -100,10 +100,11 @@
                             <h4>详细信息</h4>
                             <ul>
                                 <li class="time_content_li" ng-repeat="item in detail_infos">
-                                    <span class="time_content_span_title" ng-bind="item.key">文件名:</span>
-                                    <span ng-bind="item.value" ng-class="{payload:item.value=='点击下载'}"
-                                        ng-click="download_payload(item.value)">
-                                    </span>
+                                    <div class="time_content_span_title" ng-bind="item.key"></div>
+                                    <div class="common_value">
+                                        <span ng-class="{payload:item.value=='点击下载'}"
+                                            ng-click="download_payload(item)">{{item.value}}</span>
+                                    </div>
                                 </li>
                                 <!-- MaliciousHash urls -->
                                 <li class="time_content_li" ng-if="urls_if">
@@ -116,20 +117,17 @@
                                 </li>
                                 <!-- 沙箱运行信息 sb -->
                                 <li class="time_content_li" ng-if="sandbox_if">
-                                    <!-- <div class="time_content_span_title urls_style">沙箱运行信息</div> -->
                                     <div style="display: inline-block">
                                         <p ng-repeat="item in threat.sandbox">
                                             <span ng-bind="item.key" class="time_content_span_title"></span>
-                                            <span ng-bind="item.value"></span>
+                                            <span ng-bind="item.value" ng-class="{payload:item.value=='点击下载'}"
+                                                ng-click="download_payload(item)"></span>
                                         </p>
                                         <div>
                                             <div class="time_content_span_title urls_style">文件行为</div>
                                             <div>
-                                                <div style="float: left;">
-                                                    <p ng-repeat="item in threat.sandboxSignatures">
-                                                        <span ng-bind="item.description"></span>
-                                                    </p>
-                                                </div>
+                                                <span class="payload"
+                                                    ng-click="download_sandbox(threat.sandboxSignatures,threat.sandbox)">点击下载</span>
                                             </div>
                                         </div>
                                     </div>
@@ -157,365 +155,340 @@
                                 <!-- whois 信息显示 -->
                                 <li class="time_content_li" ng-if="whois_if">
                                     <div class="time_content_span_title urls_style">Whois信息</div>
-                                    <div style="display: inline-block">
-                                        <p ng-repeat="item in whois_list" class="time_content_li">
-                                            <span ng-bind="item.key" class="time_content_span_title">dsdsd</span>
-                                            <span ng-bind="item.value">dsdsd</span>
-                                        </p>
+                                    <div class="whois_box">
+                                        <div ng-repeat="item in whois_list" class="whois_content_li">
+                                            <div class="whois_content_span_title">{{item.key}}</div>
+                                            <div class="whois_content_span_value"> {{item.value}}</div>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
                             <h4>网络事件</h4>
                             <table class="table ng-cloak" style="table-layout:fixed;">
-                                <!-- default -->
-                                <div>
-                                    <tr ng-if="network_events.default_if">
-                                        <th>Time</th>
-                                        <th>Source IP</th>
-                                        <th>Destination IP</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.default_if">
-                                        <td ng-bind="network_events.default.timestamp"
-                                            title="{{network_events.default.timestamp}}"></td>
-                                        <td>
-                                            <span ng-bind="network_events.default.src_ip"></span>:
-                                            <span ng-bind="network_events.default.src_port"></span>
-                                        </td>
-                                        <td>
-                                            <span ng-bind="network_events.default.dest_ip"></span>:
-                                            <span ng-bind="network_events.default.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.default.app_proto">
-                                        </td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.default_if">
+                                    <th>Time</th>
+                                    <th>Source IP</th>
+                                    <th>Destination IP</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.default_if">
+                                    <td ng-bind="network_events.default.timestamp"
+                                        title="{{network_events.default.timestamp}}"></td>
+                                    <td>
+                                        <span ng-bind="network_events.default.src_ip"></span>:
+                                        <span ng-bind="network_events.default.src_port"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="network_events.default.dest_ip"></span>:
+                                        <span ng-bind="network_events.default.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.default.app_proto">
+                                    </td>
+                                </tr>
                                 <!-- smtp -->
-                                <div>
-                                    <tr ng-if="network_events.smtp_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>Mail_from</th>
-                                        <th>Recpt_to</th>
-                                        <!-- <th>Subject</th> -->
-                                        <th style="width: 80px">Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.smtp_if">
-                                        <td style="width: 150px;" ng-bind="network_events.smtp.timestamp"
-                                            title="{{network_events.smtp.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.smtp.src_ip"></span>:
-                                            <span ng-bind="network_events.smtp.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.smtp.dest_ip"></span>:
-                                            <span ng-bind="network_events.smtp.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.smtp.email.from"
-                                            title="{{network_events.smtp.email.from}}"></td>
-                                        <td ng-bind="network_events.smtp.email.to"
-                                            title="{{network_events.smtp.email.to}}"></td>
-                                        <!-- <td>-</td> -->
-                                        <td ng-bind="network_events.smtp.app_proto"
-                                            title="{{network_events.smtp.app_proto}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.smtp_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>Mail_from</th>
+                                    <th>Recpt_to</th>
+                                    <!-- <th>Subject</th> -->
+                                    <th style="width: 80px">Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.smtp_if">
+                                    <td style="width: 150px;" ng-bind="network_events.smtp.timestamp"
+                                        title="{{network_events.smtp.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.smtp.src_ip"></span>:
+                                        <span ng-bind="network_events.smtp.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.smtp.dest_ip"></span>:
+                                        <span ng-bind="network_events.smtp.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.smtp.email.from"
+                                        title="{{network_events.smtp.email.from}}"></td>
+                                    <td ng-bind="network_events.smtp.email.to" title="{{network_events.smtp.email.to}}">
+                                    </td>
+                                    <!-- <td>-</td> -->
+                                    <td ng-bind="network_events.smtp.app_proto"
+                                        title="{{network_events.smtp.app_proto}}"></td>
+                                </tr>
                                 <!-- http -->
-                                <div>
-                                    <tr ng-if="network_events.http_if">
-                                        <th>Method</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>URL</th>
-                                        <th>User Agent</th>
-                                        <th>Referrer</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.http_if">
-                                        <td ng-bind="network_events.http.http.http_method"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.http.src_ip"></span>:
-                                            <span ng-bind="network_events.http.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.http.dest_ip"></span>:
-                                            <span ng-bind="network_events.http.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.http.http.url"
-                                            title="{{network_events.http.http.url}}"></td>
-                                        <td ng-bind="network_events.http.http.http_user_agent"
-                                            title="{{network_events.http.http.http_user_agent}}"></td>
-                                        <td ng-bind="network_events.http.http.http_refer"
-                                            title="{{network_events.http.http.http_refer}}"></td>
-                                        <td>http</td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.http_if">
+                                    <th>Method</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>URL</th>
+                                    <th>User Agent</th>
+                                    <th>Referrer</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.http_if">
+                                    <td ng-bind="network_events.http.http.http_method"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.http.src_ip"></span>:
+                                        <span ng-bind="network_events.http.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.http.dest_ip"></span>:
+                                        <span ng-bind="network_events.http.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.http.http.url" title="{{network_events.http.http.url}}">
+                                    </td>
+                                    <td ng-bind="network_events.http.http.http_user_agent"
+                                        title="{{network_events.http.http.http_user_agent}}"></td>
+                                    <td ng-bind="network_events.http.http.http_refer"
+                                        title="{{network_events.http.http.http_refer}}"></td>
+                                    <td>http</td>
+                                </tr>
                                 <!-- ftp_data -->
-                                <div>
-                                    <tr ng-if="network_events.ftp_data_if">
-                                        <th>Time</th>
-                                        <th>Source IP</th>
-                                        <th>Destination IP</th>
-                                        <th>User</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.ftp_data_if">
-                                        <td ng-bind="network_events.ftp_data.timestamp"></td>
-                                        <td>
-                                            <span ng-bind="network_events.ftp_data.src_ip"></span>:
-                                            <span ng-bind="network_events.ftp_data.src_port"></span>
-                                        </td>
-                                        <td>
-                                            <span ng-bind="network_events.ftp_data.dest_ip"></span>:
-                                            <span ng-bind="network_events.ftp_data.dest_port"></span>
-                                        </td>
-                                        <td>-</td>
-                                        <td>FTP</td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.ftp_data_if">
+                                    <th>Time</th>
+                                    <th>Source IP</th>
+                                    <th>Destination IP</th>
+                                    <th>User</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.ftp_data_if">
+                                    <td ng-bind="network_events.ftp_data.timestamp"></td>
+                                    <td>
+                                        <span ng-bind="network_events.ftp_data.src_ip"></span>:
+                                        <span ng-bind="network_events.ftp_data.src_port"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="network_events.ftp_data.dest_ip"></span>:
+                                        <span ng-bind="network_events.ftp_data.dest_port"></span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>FTP</td>
+                                </tr>
                                 <!-- imap -->
-                                <div>
-                                    <tr ng-if="network_events.imap_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>Mail_from</th>
-                                        <th>Recpt_to</th>
-                                        <!-- <th>Subject</th> -->
-                                        <th style="width: 80px">Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.imap_if">
-                                        <td style="width: 150px;" ng-bind="network_events.imap.timestamp"
-                                            title="{{network_events.imap.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.imap.src_ip"></span>:
-                                            <span ng-bind="network_events.imap.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.imap.dest_ip"></span>:
-                                            <span ng-bind="network_events.imap.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.imap.email.from"
-                                            title="{{network_events.imap.email.from}}"></td>
-                                        <td ng-bind="network_events.imap.email.to"
-                                            title="{{network_events.imap.email.to}}"></td>
-                                        <!-- <td>-</td> -->
-                                        <td ng-bind="network_events.imap.app_proto"
-                                            title="{{network_events.imap.app_proto}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.imap_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>Mail_from</th>
+                                    <th>Recpt_to</th>
+                                    <!-- <th>Subject</th> -->
+                                    <th style="width: 80px">Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.imap_if">
+                                    <td style="width: 150px;" ng-bind="network_events.imap.timestamp"
+                                        title="{{network_events.imap.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.imap.src_ip"></span>:
+                                        <span ng-bind="network_events.imap.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.imap.dest_ip"></span>:
+                                        <span ng-bind="network_events.imap.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.imap.email.from"
+                                        title="{{network_events.imap.email.from}}"></td>
+                                    <td ng-bind="network_events.imap.email.to" title="{{network_events.imap.email.to}}">
+                                    </td>
+                                    <!-- <td>-</td> -->
+                                    <td ng-bind="network_events.imap.app_proto"
+                                        title="{{network_events.imap.app_proto}}"></td>
+                                </tr>
                                 <!-- pop3 -->
-                                <div>
-                                    <tr ng-if="network_events.pop3_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>Mail_from</th>
-                                        <th>Recpt_to</th>
-                                        <!-- <th>Subject</th> -->
-                                        <th style="width: 80px">Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.pop3_if">
-                                        <td style="width: 150px;" ng-bind="network_events.pop3.timestamp"
-                                            title="{{network_events.pop3.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.pop3.src_ip"></span>:
-                                            <span ng-bind="network_events.pop3.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.pop3.dest_ip"></span>:
-                                            <span ng-bind="network_events.pop3.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.pop3.email.from"
-                                            title="{{network_events.pop3.email.from}}"></td>
-                                        <td ng-bind="network_events.pop3.email.to"
-                                            title="{{network_events.pop3.email.to}}"></td>
-                                        <!-- <td>-</td> -->
-                                        <td ng-bind="network_events.pop3.app_proto"
-                                            title="{{network_events.pop3.app_proto}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.pop3_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>Mail_from</th>
+                                    <th>Recpt_to</th>
+                                    <!-- <th>Subject</th> -->
+                                    <th style="width: 80px">Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.pop3_if">
+                                    <td style="width: 150px;" ng-bind="network_events.pop3.timestamp"
+                                        title="{{network_events.pop3.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.pop3.src_ip"></span>:
+                                        <span ng-bind="network_events.pop3.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.pop3.dest_ip"></span>:
+                                        <span ng-bind="network_events.pop3.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.pop3.email.from"
+                                        title="{{network_events.pop3.email.from}}"></td>
+                                    <td ng-bind="network_events.pop3.email.to" title="{{network_events.pop3.email.to}}">
+                                    </td>
+                                    <!-- <td>-</td> -->
+                                    <td ng-bind="network_events.pop3.app_proto"
+                                        title="{{network_events.pop3.app_proto}}"></td>
+                                </tr>
                                 <!-- smb -->
-                                <div>
-                                    <tr ng-if="network_events.smb_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>Domain</th>
-                                        <th>User</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.smb_if">
-                                        <td style="width: 150px;" ng-bind="network_events.smb.timestamp"
-                                            title="{{network_events.smb.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.smb.src_ip"></span>:
-                                            <span ng-bind="network_events.smb.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.smb.dest_ip"></span>:
-                                            <span ng-bind="network_events.smb.dest_port"></span>
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td ng-bind="network_events.smb.app_proto"
-                                            title="{{network_events.smb.app_proto}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.smb_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>Domain</th>
+                                    <th>User</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.smb_if">
+                                    <td style="width: 150px;" ng-bind="network_events.smb.timestamp"
+                                        title="{{network_events.smb.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.smb.src_ip"></span>:
+                                        <span ng-bind="network_events.smb.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.smb.dest_ip"></span>:
+                                        <span ng-bind="network_events.smb.dest_port"></span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td ng-bind="network_events.smb.app_proto" title="{{network_events.smb.app_proto}}">
+                                    </td>
+                                </tr>
                                 <!-- ftp -->
-                                <div>
-                                    <tr ng-if="network_events.ftp_if">
-                                        <th>Time</th>
-                                        <th>Source IP</th>
-                                        <th>Destination IP</th>
-                                        <th>User</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.ftp_if">
-                                        <td ng-bind="network_events.ftp.timestamp"
-                                            title="{{network_events.ftp.timestamp}}"></td>
-                                        <td>
-                                            <span ng-bind="network_events.ftp.src_ip"></span>:
-                                            <span ng-bind="network_events.ftp.src_port"></span>
-                                        </td>
-                                        <td>
-                                            <span ng-bind="network_events.ftp.dest_ip"></span>:
-                                            <span ng-bind="network_events.ftp.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.ftp.user" title="{{network_events.ftp.user}}"></td>
-                                        <td ng-bind="network_events.ftp.app_proto"
-                                            title="{{network_events.ftp.app_proto}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.ftp_if">
+                                    <th>Time</th>
+                                    <th>Source IP</th>
+                                    <th>Destination IP</th>
+                                    <th>User</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.ftp_if">
+                                    <td ng-bind="network_events.ftp.timestamp" title="{{network_events.ftp.timestamp}}">
+                                    </td>
+                                    <td>
+                                        <span ng-bind="network_events.ftp.src_ip"></span>:
+                                        <span ng-bind="network_events.ftp.src_port"></span>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="network_events.ftp.dest_ip"></span>:
+                                        <span ng-bind="network_events.ftp.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.ftp.user" title="{{network_events.ftp.user}}"></td>
+                                    <td ng-bind="network_events.ftp.app_proto" title="{{network_events.ftp.app_proto}}">
+                                    </td>
+                                </tr>
                                 <!-- ssh -->
-                                <div>
-                                    <tr ng-if="network_events.ssh_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>Tool</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.ssh_if">
-                                        <td style="width: 150px;" ng-bind="network_events.ssh.timestamp"
-                                            title="{{network_events.ssh.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.ssh.src_ip"></span>:
-                                            <span ng-bind="network_events.ssh.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.ssh.dest_ip"></span>:
-                                            <span ng-bind="network_events.ssh.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.ssh.ssh.client.software_version"
-                                            title="{{network_events.ssh.ssh.client.software_version}}"></td>
-                                        <td ng-bind="network_events.ssh.event_type"
-                                            title="{{network_events.ftp.event_type}}"></td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.ssh_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>Tool</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.ssh_if">
+                                    <td style="width: 150px;" ng-bind="network_events.ssh.timestamp"
+                                        title="{{network_events.ssh.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.ssh.src_ip"></span>:
+                                        <span ng-bind="network_events.ssh.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.ssh.dest_ip"></span>:
+                                        <span ng-bind="network_events.ssh.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.ssh.ssh.client.software_version"
+                                        title="{{network_events.ssh.ssh.client.software_version}}"></td>
+                                    <td ng-bind="network_events.ssh.event_type"
+                                        title="{{network_events.ftp.event_type}}"></td>
+                                </tr>
                                 <!-- https -->
-                                <div>
-                                    <tr ng-if="network_events.https_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px">Source IP</th>
-                                        <th style="width: 150px">Destination IP</th>
-                                        <th>URL</th>
-                                        <th>Issuerdn</th>
-                                        <th>Authorizing</th>
-                                        <th>Notafter</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.https_if">
-                                        <td style="width: 150px;" ng-bind="network_events.https.timestamp"
-                                            title="{{network_events.https.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.https.src_ip"></span>:
-                                            <span ng-bind="network_events.https.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.https.dest_ip"></span>:
-                                            <span ng-bind="network_events.https.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.https.tls.sni"
-                                            title="{{network_events.https.tls.sni}}"></td>
-                                        <td ng-bind="network_events.https.tls.issuerdn"
-                                            title="{{network_events.https.tls.issuerdn}}"></td>
-                                        <td ng-bind="network_events.https.tls.Authorizing"
-                                            title="{{network_events.https.tls.Authorizing}}"></td>
-                                        <td ng-bind="network_events.https.tls.notafter"
-                                            title="{{network_events.https.tls.notafter}}"></td>
-                                        <td>https</td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.https_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px">Source IP</th>
+                                    <th style="width: 150px">Destination IP</th>
+                                    <th>URL</th>
+                                    <th>Issuerdn</th>
+                                    <th>Authorizing</th>
+                                    <th>Notafter</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.https_if">
+                                    <td style="width: 150px;" ng-bind="network_events.https.timestamp"
+                                        title="{{network_events.https.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.https.src_ip"></span>:
+                                        <span ng-bind="network_events.https.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.https.dest_ip"></span>:
+                                        <span ng-bind="network_events.https.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.https.tls.sni" title="{{network_events.https.tls.sni}}">
+                                    </td>
+                                    <td ng-bind="network_events.https.tls.issuerdn"
+                                        title="{{network_events.https.tls.issuerdn}}"></td>
+                                    <td ng-bind="network_events.https.tls.Authorizing"
+                                        title="{{network_events.https.tls.Authorizing}}"></td>
+                                    <td ng-bind="network_events.https.tls.notafter"
+                                        title="{{network_events.https.tls.notafter}}"></td>
+                                    <td>https</td>
+                                </tr>
                                 <!-- dns -->
-                                <div>
-                                    <tr ng-if="network_events.dns_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px;">Source IP</th>
-                                        <th style="width: 150px;">Destination IP</th>
-                                        <th>SectianType</th>
-                                        <th>Domain</th>
-                                        <th>HostAddr</th>
-                                        <th>TTL</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.dns_if">
-                                        <td style="width: 150px;" ng-bind="network_events.dns.timestamp"
-                                            title="{{network_events.dns.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.dns.src_ip"></span>:
-                                            <span ng-bind="network_events.dns.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.dns.dest_ip"></span>:
-                                            <span ng-bind="network_events.dns.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.dns.dns.rrtype"
-                                            title="{{network_events.dns.dns.rrtype}}"></td>
-                                        <td ng-bind="network_events.dns.dns.rrname"
-                                            title="{{network_events.dns.dns.rrname}}"></td>
-                                        <td ng-bind="network_events.dns.dns.HostAddr"
-                                            title="{{network_events.dns.dns.HostAddr}}"></td>
-                                        <td ng-bind="network_events.dns.dns.ttl" title="{{network_events.dns.dns.ttl}}">
-                                        </td>
-                                        <td>dns</td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.dns_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px;">Source IP</th>
+                                    <th style="width: 150px;">Destination IP</th>
+                                    <th>SectianType</th>
+                                    <th>Domain</th>
+                                    <th>HostAddr</th>
+                                    <th>TTL</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.dns_if">
+                                    <td style="width: 150px;" ng-bind="network_events.dns.timestamp"
+                                        title="{{network_events.dns.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.dns.src_ip"></span>:
+                                        <span ng-bind="network_events.dns.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.dns.dest_ip"></span>:
+                                        <span ng-bind="network_events.dns.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.dns.dns.rrtype"
+                                        title="{{network_events.dns.dns.rrtype}}"></td>
+                                    <td ng-bind="network_events.dns.dns.rrname"
+                                        title="{{network_events.dns.dns.rrname}}"></td>
+                                    <td ng-bind="network_events.dns.dns.HostAddr"
+                                        title="{{network_events.dns.dns.HostAddr}}"></td>
+                                    <td ng-bind="network_events.dns.dns.ttl" title="{{network_events.dns.dns.ttl}}">
+                                    </td>
+                                    <td>dns</td>
+                                </tr>
                                 <!-- krb5 -->
-                                <div>
-                                    <tr ng-if="network_events.krb5_if">
-                                        <th style="width: 150px;">Time</th>
-                                        <th style="width: 150px;">Source IP</th>
-                                        <th style="width: 150px;">Destination IP</th>
-                                        <th>Msg_type</th>
-                                        <th>Cname</th>
-                                        <th>Realm</th>
-                                        <th>Sname</th>
-                                        <th>Traffic</th>
-                                    </tr>
-                                    <tr style="cursor: pointer;" ng-if="network_events.krb5_if">
-                                        <td style="width: 150px;" ng-bind="network_events.krb5.timestamp"
-                                            title="{{network_events.krb5.timestamp}}"></td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.krb5.src_ip"></span>:
-                                            <span ng-bind="network_events.krb5.src_port"></span>
-                                        </td>
-                                        <td style="width: 150px;">
-                                            <span ng-bind="network_events.krb5.dest_ip"></span>:
-                                            <span ng-bind="network_events.krb5.dest_port"></span>
-                                        </td>
-                                        <td ng-bind="network_events.krb5.krb5.msg_type"
-                                            title="{{network_events.krb5.krb5.msg_type}}"></td>
-                                        <td ng-bind="network_events.krb5.krb5.cname"
-                                            title="{{network_events.krb5.krb5.cname}}"></td>
-                                        <td ng-bind="network_events.krb5.krb5.realm"
-                                            title="{{network_events.krb5.krb5.realm}}"></td>
-                                        <td ng-bind="network_events.krb5.krb5.sname"
-                                            title="{{network_events.krb5.krb5.sname}}"></td>
-                                        <td>krb5</td>
-                                    </tr>
-                                </div>
+                                <tr ng-if="network_events.krb5_if">
+                                    <th style="width: 150px;">Time</th>
+                                    <th style="width: 150px;">Source IP</th>
+                                    <th style="width: 150px;">Destination IP</th>
+                                    <th>Msg_type</th>
+                                    <th>Cname</th>
+                                    <th>Realm</th>
+                                    <th>Sname</th>
+                                    <th>Traffic</th>
+                                </tr>
+                                <tr style="cursor: pointer;" ng-if="network_events.krb5_if">
+                                    <td style="width: 150px;" ng-bind="network_events.krb5.timestamp"
+                                        title="{{network_events.krb5.timestamp}}"></td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.krb5.src_ip"></span>:
+                                        <span ng-bind="network_events.krb5.src_port"></span>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <span ng-bind="network_events.krb5.dest_ip"></span>:
+                                        <span ng-bind="network_events.krb5.dest_port"></span>
+                                    </td>
+                                    <td ng-bind="network_events.krb5.krb5.msg_type"
+                                        title="{{network_events.krb5.krb5.msg_type}}"></td>
+                                    <td ng-bind="network_events.krb5.krb5.cname"
+                                        title="{{network_events.krb5.krb5.cname}}"></td>
+                                    <td ng-bind="network_events.krb5.krb5.realm"
+                                        title="{{network_events.krb5.krb5.realm}}"></td>
+                                    <td ng-bind="network_events.krb5.krb5.sname"
+                                        title="{{network_events.krb5.krb5.sname}}"></td>
+                                    <td>krb5</td>
+                                </tr>
                             </table>
                         </div>
                     </div>

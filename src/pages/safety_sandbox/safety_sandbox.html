@@ -1,0 +1,126 @@
+<div class="safety_sandbox" ng-controller="Safety_sandboxController" ng-init="app.settings.container = false;" ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom row" style="margin-bottom: 0px;padding-bottom: 10px">
+                <ul class="nav nav-tabs" style="margin-bottom:-1px;border-bottom: 0">
+                    <li class="active">
+                        <a href="javascript:void();" data-toggle="tab" aria-expanded="true">
+                            <i class="fa fa-bell-o"></i> 沙箱</a>
+                    </li>
+                </ul>
+                <div class="item_box_upload">
+                    <div class="upload_box" id="picker_sandbox" style="background: none">
+                        <img class="upload_img" src="../src/images/icos/load.png">
+                        <p class="upload_text">请点击选择要扫描的文件(最大100M)</p>
+                    </div>
+                </div>
+                <!-- <div id="thelist_sandbox" class="uploader-list"></div> -->
+                <div class="tab-content" style="padding-top:0px;border-bottom:0px;">
+                    <div class="tab-pane active" id="protect">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid" style="margin-top:10px;">
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade in active" id="net">
+                                            <div class="box-body">
+                                                <table class="table table-hover  ng-cloak">
+                                                    <tr>
+                                                        <th style="width:80px">结果</th>
+                                                        <th>创建时间</th>
+                                                        <th>扫描状态</th>
+                                                        <th>文件名</th>
+                                                        <th>扫描详情</th>
+                                                        <th style="width: 120px">操作</th>
+                                                    </tr>
+                                                    <tr ng-repeat="item in sandbox_data.data">
+                                                        <td ng-class="item.result=='0'?'color_red':'' ">
+                                                            {{item.result_cn}}
+                                                        </td>
+                                                        <td>{{item.created_at*1000 |date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                                        <td>{{item.status=='1'?'扫描中':'扫描结束'}}</td>
+                                                        <td>{{item.upload_name}}</td>
+                                                        <td class="cursor">
+                                                            <img src="../src/images/icos/download.png"
+                                                                ng-if="item.result=='0'" title="下载"
+                                                                ng-click="download(item)" width="16" height="16" alt="">
+                                                        </td>
+                                                        <td class="cursor" style="width: 120px">
+                                                            <img src="../src/images/icos/delate.png" title="删除"
+                                                                ng-click="del(item)" width="16" height="16" alt="">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <div style="border-top: 1px solid #f4f4f4;padding: 10px;">
+                                                    <em>共有
+                                                        <span ng-bind="sandbox_data.count"></span>条</em>
+                                                    <ul class="pagination pagination-sm no-margin pull-right ng-cloak">
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow-1)"
+                                                                ng-if="sandbox_data.pageNow>1">上一页</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" ng-click="get_list(1)"
+                                                                ng-if="sandbox_data.pageNow>1">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-if="sandbox_data.pageNow>4">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow-2)"
+                                                                ng-bind="sandbox_data.pageNow-2"
+                                                                ng-if="sandbox_data.pageNow>3"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow-1)"
+                                                                ng-bind="sandbox_data.pageNow-1"
+                                                                ng-if="sandbox_data.pageNow>2"></a>
+                                                        </li>
+                                                        <li class="active">
+                                                            <a href="javascript:void(0);"
+                                                                ng-bind="sandbox_data.pageNow"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow+1)"
+                                                                ng-bind="sandbox_data.pageNow+1"
+                                                                ng-if="sandbox_data.pageNow<sandbox_data.maxPage-1"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow+2)"
+                                                                ng-bind="sandbox_data.pageNow+2"
+                                                                ng-if="sandbox_data.pageNow<sandbox_data.maxPage-2"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-if="sandbox_data.pageNow<sandbox_data.maxPage-3">...</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.maxPage)"
+                                                                ng-bind="sandbox_data.maxPage"
+                                                                ng-if="sandbox_data.pageNow<sandbox_data.maxPage"></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);"
+                                                                ng-click="get_list(sandbox_data.pageNow+1)"
+                                                                ng-if="sandbox_data.pageNow<sandbox_data.maxPage">下一页</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

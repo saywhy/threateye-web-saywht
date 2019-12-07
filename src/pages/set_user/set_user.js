@@ -12,7 +12,7 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         $scope.testIP_type = false;;
         $scope.policy.disabled = true;
         $scope.selectValue = 'admin'; //默认选择角色admin权限
-        $scope.strategy = '1';  
+        $scope.strategy = '1';
         $scope.pages = {
             data: [],
             count: 0,
@@ -89,8 +89,11 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     name: 'IOC扫描器',
                     isSelected: false,
                     id: '60'
+                }, {
+                    name: '沙箱',
+                    isSelected: false,
+                    id: '154'
                 }
-
             ],
             type: "安全调查"
         }, {
@@ -154,15 +157,13 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         $scope.getPage(); // 获取用户列表
         $scope.getRoleList(); // 获取角色列表
         $scope.getSecurityPolicy();
-        $scope.getPwdLength();//获取密码长度
+        $scope.getPwdLength(); //获取密码长度
     };
     //tab栏切换
     $scope.show = function (params) {
         $scope.selected = params;
-        if ($scope.selected == 0) {
-        }
-        if ($scope.selected == 1) {
-        }
+        if ($scope.selected == 0) {}
+        if ($scope.selected == 1) {}
         if ($scope.selected == 2) {}
     };
     // 获取用户列表
@@ -179,23 +180,23 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                 zeroModal.close(loading);
                 if (rsp.data.status == 0) {
                     $scope.pages = rsp.data.data;
-                    angular.forEach($scope.pages.data,function(item){
-                        if(item.allow_ip!=''&&item.allow_ip_segment!=''){
-                            item.allow = item.allow_ip+';'+item.allow_ip_segment
+                    angular.forEach($scope.pages.data, function (item) {
+                        if (item.allow_ip != '' && item.allow_ip_segment != '') {
+                            item.allow = item.allow_ip + ';' + item.allow_ip_segment
                         }
-                        if(item.allow_ip==''){
+                        if (item.allow_ip == '') {
                             item.allow = item.allow_ip_segment
                         }
-                        if(item.allow_ip_segment==''){
+                        if (item.allow_ip_segment == '') {
                             item.allow = item.allow_ip
                         }
-                       
+
                     })
                     console.log($scope.pages.data);
-                } else if(rsp.data.status==600){
+                } else if (rsp.data.status == 600) {
                     zeroModal.error(rsp.data.msg);
                     console.log(rsp.data.msg);
-                }else {
+                } else {
                     zeroModal.error(rsp.data.msg);
                 }
             }, function err(rsp) {
@@ -256,30 +257,30 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                 if (!flag) {
                     return false;
                 }
-                if( $scope.newUser.allow_ip.split(";")){
-                    angular.forEach( $scope.newUser.allow_ip.split(";"),function(item){
+                if ($scope.newUser.allow_ip.split(";")) {
+                    angular.forEach($scope.newUser.allow_ip.split(";"), function (item) {
                         console.log(item);
                     })
                 }
-                if( $scope.newUser.allow_ip!=''){
-                    if($scope.newUser.allow_ip.charAt($scope.newUser.allow_ip.length-1) == ';'){
-                        $scope.newUser.allow_ip = $scope.newUser.allow_ip.substr(0,$scope.newUser.allow_ip.length-1);
+                if ($scope.newUser.allow_ip != '') {
+                    if ($scope.newUser.allow_ip.charAt($scope.newUser.allow_ip.length - 1) == ';') {
+                        $scope.newUser.allow_ip = $scope.newUser.allow_ip.substr(0, $scope.newUser.allow_ip.length - 1);
                     }
-                    angular.forEach( $scope.newUser.allow_ip.split(";"),function(item){
+                    angular.forEach($scope.newUser.allow_ip.split(";"), function (item) {
                         console.log(item);
-                        if(item.indexOf('/')>0){
+                        if (item.indexOf('/') > 0) {
                             $scope.testIP(item.split("/")[0]);
-                        }else{
+                        } else {
                             $scope.testIP(item);
                         }
                     })
                     console.log($scope.testIP_type);
-                    if( $scope.testIP_type){
+                    if ($scope.testIP_type) {
                         zeroModal.error('请填写有效的IP地址！');
                         return false;
                     }
                 }
-              
+
                 $scope.sendUser();
             },
             onCleanup: function () {
@@ -291,12 +292,12 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         rqs_data = {
             username: $scope.newUser.username,
             password: $scope.newUser.password,
-            role: $scope.selectValue ,
+            role: $scope.selectValue,
             allow_ip: $scope.newUser.allow_ip,
             page: $scope.pages.pageNow
         };
         console.log(rqs_data);
-        
+
         var str = JSON.stringify(rqs_data)
         var loading = zeroModal.loading(4);
         $http.post("./yiiapi/user/user-add", rqs_data).then(function success(rsp) {
@@ -309,9 +310,9 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     content: '用户添加失败',
                     contentDetail: rsp.data.msg
                 });
-            } else if(rsp.data.status==600){
+            } else if (rsp.data.status == 600) {
                 console.log(rsp.data.msg);
-            }else{
+            } else {
                 zeroModal.error(rsp.data.msg);
             }
         }, function err(rsp) {
@@ -336,9 +337,9 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     zeroModal.close(loading);
                     if (req.status == 0) {
                         $scope.getPage();
-                    } else if(req.status==600){
+                    } else if (req.status == 600) {
                         console.log(req.msg);
-                    } else{
+                    } else {
                         zeroModal.error(req.msg);
                     }
                 }).error(function () {
@@ -384,38 +385,39 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                         }
                     })
                 })
-                if($scope.addRole.permissionsList.indexOf('12')>-1||$scope.addRole.permissionsList.indexOf('20')>-1){
-                   $scope.add_alarm = true;
+                if ($scope.addRole.permissionsList.indexOf('12') > -1 || $scope.addRole.permissionsList.indexOf('20') > -1) {
+                    $scope.add_alarm = true;
                 }
-                if($scope.addRole.permissionsList.indexOf('28')>-1||
-                $scope.addRole.permissionsList.indexOf('32')>-1||
-                $scope.addRole.permissionsList.indexOf('36')>-1||
-                $scope.addRole.permissionsList.indexOf('40')>-1||
-                $scope.addRole.permissionsList.indexOf('44')>-1||
-                $scope.addRole.permissionsList.indexOf('48')>-1||
-                $scope.addRole.permissionsList.indexOf('52')>-1||
-                $scope.addRole.permissionsList.indexOf('60')>-1){
+                if ($scope.addRole.permissionsList.indexOf('28') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('32') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('36') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('40') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('44') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('48') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('52') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('154') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('60') > -1) {
                     $scope.add_safety = true;
                 }
-                if($scope.addRole.permissionsList.indexOf('75')>-1||
-                $scope.addRole.permissionsList.indexOf('79')>-1||
-                $scope.addRole.permissionsList.indexOf('86')>-1||
-                $scope.addRole.permissionsList.indexOf('91')>-1||
-                $scope.addRole.permissionsList.indexOf('95')>-1||
-                $scope.addRole.permissionsList.indexOf('100')>-1||
-                $scope.addRole.permissionsList.indexOf('104')>-1||
-                $scope.addRole.permissionsList.indexOf('109')>-1||
-                $scope.addRole.permissionsList.indexOf('125')>-1||
-                $scope.addRole.permissionsList.indexOf('114')>-1){
+                if ($scope.addRole.permissionsList.indexOf('75') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('79') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('86') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('91') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('95') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('100') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('104') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('109') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('125') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('114') > -1) {
                     $scope.add_set = true;
                 }
-                if($scope.add_alarm){
+                if ($scope.add_alarm) {
                     $scope.addRole.permissionsList.push('11');
                 }
-                if($scope.add_safety){
+                if ($scope.add_safety) {
                     $scope.addRole.permissionsList.push('27');
                 }
-                if($scope.add_set){
+                if ($scope.add_set) {
                     $scope.addRole.permissionsList.push('74');
                 }
                 var post_data = {
@@ -431,13 +433,12 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     if (data.status == 0) {
                         // 添加成功，更新角色列表
                         $scope.getRoleList();
-                    }else if(data.status==600){
+                    } else if (data.status == 600) {
                         console.log(data.msg);
-                    }else {
+                    } else {
                         zeroModal.error(data.msg);
                     }
-                }).error(function () {
-                })
+                }).error(function () {})
             },
             onCleanup: function () {
                 hideenroleBox.appendChild(newRole);
@@ -445,10 +446,10 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         });
     };
     // 验证Ip格式
-    $scope.testIP = function(item){
-        var reg =/^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-4][0-9])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[0-9]))$/;
+    $scope.testIP = function (item) {
+        var reg = /^(?:(?:2[0-4][0-9]\.)|(?:25[0-5]\.)|(?:1[0-9][0-9]\.)|(?:[1-9][0-9]\.)|(?:[0-9]\.)){3}(?:(?:2[0-4][0-9])|(?:25[0-5])|(?:1[0-9][0-9])|(?:[1-9][0-9])|(?:[0-9]))$/;
         var re = new RegExp(reg);
-        if(!re.test(item)){
+        if (!re.test(item)) {
             console.log(item);
             $scope.testIP_type = true;
         }
@@ -522,53 +523,54 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                         }
                     })
                 })
-       
-                
-                if($scope.addRole.permissionsList.indexOf('12')>-1||$scope.addRole.permissionsList.indexOf('20')>-1){
+
+
+                if ($scope.addRole.permissionsList.indexOf('12') > -1 || $scope.addRole.permissionsList.indexOf('20') > -1) {
                     $scope.add_alarm = true;
                     console.log('2323');
-                    
-                 }
-                 if($scope.addRole.permissionsList.indexOf('28')>-1||
-                 $scope.addRole.permissionsList.indexOf('32')>-1||
-                 $scope.addRole.permissionsList.indexOf('36')>-1||
-                 $scope.addRole.permissionsList.indexOf('40')>-1||
-                 $scope.addRole.permissionsList.indexOf('44')>-1||
-                 $scope.addRole.permissionsList.indexOf('48')>-1||
-                 $scope.addRole.permissionsList.indexOf('52')>-1||
-                 $scope.addRole.permissionsList.indexOf('60')>-1){
-                     $scope.add_safety = true;
-                 }
-                 if($scope.addRole.permissionsList.indexOf('75')>-1||
-                 $scope.addRole.permissionsList.indexOf('79')>-1||
-                 $scope.addRole.permissionsList.indexOf('86')>-1||
-                 $scope.addRole.permissionsList.indexOf('91')>-1||
-                 $scope.addRole.permissionsList.indexOf('95')>-1||
-                 $scope.addRole.permissionsList.indexOf('100')>-1||
-                 $scope.addRole.permissionsList.indexOf('104')>-1||
-                 $scope.addRole.permissionsList.indexOf('109')>-1||
-                 $scope.addRole.permissionsList.indexOf('125')>-1||
-                 $scope.addRole.permissionsList.indexOf('114')>-1){
-                     $scope.add_set = true;
-                 }
-                 if($scope.add_alarm){
-                     console.log('112');
-                     
-                     $scope.addRole.permissionsList.push('11');
-                 }
-                 if($scope.add_safety){
-                     $scope.addRole.permissionsList.push('27');
-                 }
-                 if($scope.add_set){
-                     $scope.addRole.permissionsList.push('74');
-                 }
-                 console.log($scope.addRole.permissionsList);
+
+                }
+                if ($scope.addRole.permissionsList.indexOf('28') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('32') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('36') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('40') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('44') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('48') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('52') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('154') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('60') > -1) {
+                    $scope.add_safety = true;
+                }
+                if ($scope.addRole.permissionsList.indexOf('75') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('79') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('86') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('91') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('95') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('100') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('104') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('109') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('125') > -1 ||
+                    $scope.addRole.permissionsList.indexOf('114') > -1) {
+                    $scope.add_set = true;
+                }
+                if ($scope.add_alarm) {
+                    console.log('112');
+
+                    $scope.addRole.permissionsList.push('11');
+                }
+                if ($scope.add_safety) {
+                    $scope.addRole.permissionsList.push('27');
+                }
+                if ($scope.add_set) {
+                    $scope.addRole.permissionsList.push('74');
+                }
+                console.log($scope.addRole.permissionsList);
                 $http({
                     method: 'post',
                     url: './yiiapi/user/edit-role',
                     data: {
-                        id:item.id,
-                        old_name:item.name,
+                        id: item.id,
+                        old_name: item.name,
                         name: $scope.mod_role.name,
                         description: $scope.mod_role.description,
                         permissions_id: $scope.addRole.permissionsList.join(',')
@@ -577,9 +579,9 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     if (data.status == 0) {
                         // 修改成功，更新角色列表
                         $scope.getRoleList();
-                    }else if(data.status==600){
+                    } else if (data.status == 600) {
                         console.log(data.msg);
-                    } else  {
+                    } else {
                         zeroModal.error(data.msg);
                     }
 
@@ -597,7 +599,7 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
     // 删除角色
     $scope.delRole = function (item) {
         zeroModal.confirm({
-            content: '确定删除 ' +'"' + item.name + '"吗？',
+            content: '确定删除 ' + '"' + item.name + '"吗？',
             okFn: function () {
                 $http({
                     method: 'delete',
@@ -609,20 +611,20 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     if (data.status == 0) {
                         // 删除成功，更新角色列表
                         $scope.getRoleList();
-                    }else if(data.status==600){
+                    } else if (data.status == 600) {
                         console.log(data.msg);
                     } else {
                         zeroModal.error(data.msg);
                     }
-        
+
                 }).error(function () {
-        
+
                 })
-           
+
             },
             cancelFn: function () {}
         });
-     
+
     };
     //修改用户-修改密码
     $scope.resetPassword = function (user) {
@@ -631,11 +633,11 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         console.log(user);
         $scope.getPwdLength();
         $scope.resetRoleList = $scope.roleList;
-        $scope.resetSelectValue =user.role;
-        $scope.resetUser_passworderror =false;
-        $scope.resetUser_repassworderror =false;
-        $scope.resetUser={
-            password:''
+        $scope.resetSelectValue = user.role;
+        $scope.resetUser_passworderror = false;
+        $scope.resetUser_repassworderror = false;
+        $scope.resetUser = {
+            password: ''
         };
         $scope.resetUser.allow_ip = user.allow;
         $http.get("./yiiapi/user/get-password-reset-token?id=" + user.id).then(function success(rsp) {
@@ -651,7 +653,7 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                     ok: true,
                     cancel: true,
                     okFn: function () {
-                        if( $scope.resetUser.password != ''){
+                        if ($scope.resetUser.password != '') {
                             var flag = true;
                             var password = $scope.resetUser.password;
                             var pattern = /(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}/;
@@ -672,29 +674,29 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                                 return false;
                             }
                         }
-                        if( $scope.resetUser.allow_ip!=''){
-                            if($scope.resetUser.allow_ip.charAt($scope.resetUser.allow_ip.length-1) == ';'){
-                                $scope.resetUser.allow_ip = $scope.resetUser.allow_ip.substr(0,$scope.resetUser.allow_ip.length-1);
+                        if ($scope.resetUser.allow_ip != '') {
+                            if ($scope.resetUser.allow_ip.charAt($scope.resetUser.allow_ip.length - 1) == ';') {
+                                $scope.resetUser.allow_ip = $scope.resetUser.allow_ip.substr(0, $scope.resetUser.allow_ip.length - 1);
                             }
-                            angular.forEach( $scope.resetUser.allow_ip.split(";"),function(item){
-                                if(item.indexOf('/')>0){
+                            angular.forEach($scope.resetUser.allow_ip.split(";"), function (item) {
+                                if (item.indexOf('/') > 0) {
                                     $scope.testIP(item.split("/")[0]);
-                                }else{
+                                } else {
                                     $scope.testIP(item);
                                 }
                             })
-                            if( $scope.testIP_type){
+                            if ($scope.testIP_type) {
                                 zeroModal.error('请填写有效的IP地址！');
                                 return false;
                             }
                         }
                         console.log($scope.resetUser.allow_ip);
-                        
+
                         var post_data = {
                             'ResetPasswordForm': {
                                 'password': password,
-                                "allow_ip":$scope.resetUser.allow_ip,
-                                "role":$scope.resetSelectValue
+                                "allow_ip": $scope.resetUser.allow_ip,
+                                "role": $scope.resetSelectValue
                             }
                         };
                         loading = zeroModal.loading(4);
@@ -706,13 +708,13 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                             if (data.status == 0) {
                                 zeroModal.success('修改成功！');
                                 $scope.getPage();
-                            } else if(data.status==600){
+                            } else if (data.status == 600) {
                                 console.log(data.msg);
                             }
                             zeroModal.close(loading);
                         }).error(function () {
                             zeroModal.close(loading);
-                       
+
                         })
                     },
                     onCleanup: function () {
@@ -725,14 +727,13 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         });
     };
     // 获取密码长度
-    $scope.getPwdLength = function(){
+    $scope.getPwdLength = function () {
         $http({
             method: 'get',
             url: './yiiapi/site/get-passwd-length'
         }).then(function successCallback(data) {
             $scope.pwdLength = data.data.data
-        }, function errorCallback(data) {
-        });
+        }, function errorCallback(data) {});
     }
     // 这里初始化数组 上来全为空
     $scope.selectAll = [];
@@ -762,17 +763,16 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
             zeroModal.close(loading);
         });
     }
-    $scope.checkPwdReset = function(){
+    $scope.checkPwdReset = function () {
         $http({
             method: 'get',
             url: './yiiapi/site/check-passwd-reset'
         }).then(function successCallback(data) {
             console.log(data);
-            if(data.data.status==600){
+            if (data.data.status == 600) {
                 console.log(data.data.msg)
             }
-        }, function errorCallback(data) {
-        });
+        }, function errorCallback(data) {});
     }
     $scope.checkPwdReset();
     // 安全策略
@@ -803,8 +803,8 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         if (data == '1') {
             $scope.policy.disabled = true;
             var loading = zeroModal.loading(4);
-            if($scope.policy.passwdRegular == 'undefined'){
-                $scope.policy.passwdRegular  = 0;
+            if ($scope.policy.passwdRegular == 'undefined') {
+                $scope.policy.passwdRegular = 0;
             }
             console.log($scope.policy.passwdRegular);
             $http({
@@ -824,7 +824,7 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
                 zeroModal.close(loading);
                 if (data.status == 0) {
                     zeroModal.success('启用成功');
-                }else if(data.status == 401){
+                } else if (data.status == 401) {
                     zeroModal.error(data.msg);
                 }
             }).error(function (err) {
@@ -836,42 +836,42 @@ app.controller('Set_userController', ['$scope', '$http', '$state', '$rootScope',
         }
     }
     // 安全策略检测数值
-    $scope.strategy_num_test = function(){
+    $scope.strategy_num_test = function () {
         console.log($scope.policy.minPasswd);
-        if($scope.policy.minPasswd==null ||$scope.policy.minPasswd<8){
-            $scope.policy.minPasswd=8;
-        }else if($scope.policy.minPasswd>11){
-            $scope.policy.minPasswd=11;
+        if ($scope.policy.minPasswd == null || $scope.policy.minPasswd < 8) {
+            $scope.policy.minPasswd = 8;
+        } else if ($scope.policy.minPasswd > 11) {
+            $scope.policy.minPasswd = 11;
         }
-        if($scope.policy.maxPasswd==null ||$scope.policy.maxPasswd<11){
-            $scope.policy.maxPasswd=11;
-        }else if($scope.policy.maxPasswd>30){
-            $scope.policy.maxPasswd=30;
+        if ($scope.policy.maxPasswd == null || $scope.policy.maxPasswd < 11) {
+            $scope.policy.maxPasswd = 11;
+        } else if ($scope.policy.maxPasswd > 30) {
+            $scope.policy.maxPasswd = 30;
         }
-        if($scope.policy.passwdRegular==null ||$scope.policy.passwdRegular<0){
-            $scope.policy.passwdRegular=0;
-        }else if($scope.policy.passwdRegular>90){
-            $scope.policy.passwdRegular=90;
+        if ($scope.policy.passwdRegular == null || $scope.policy.passwdRegular < 0) {
+            $scope.policy.passwdRegular = 0;
+        } else if ($scope.policy.passwdRegular > 90) {
+            $scope.policy.passwdRegular = 90;
         }
-        if($scope.policy.adminFaildLogon==null ||$scope.policy.adminFaildLogon<1){
-            $scope.policy.adminFaildLogon=1;
-        }else if($scope.policy.adminFaildLogon>5){
-            $scope.policy.adminFaildLogon=5;
+        if ($scope.policy.adminFaildLogon == null || $scope.policy.adminFaildLogon < 1) {
+            $scope.policy.adminFaildLogon = 1;
+        } else if ($scope.policy.adminFaildLogon > 5) {
+            $scope.policy.adminFaildLogon = 5;
         }
-        if($scope.policy.adminLogonDelay==null ||$scope.policy.adminLogonDelay<1){
-            $scope.policy.adminLogonDelay=1;
-        }else if($scope.policy.adminLogonDelay>3600){
-            $scope.policy.adminLogonDelay=3600;
+        if ($scope.policy.adminLogonDelay == null || $scope.policy.adminLogonDelay < 1) {
+            $scope.policy.adminLogonDelay = 1;
+        } else if ($scope.policy.adminLogonDelay > 3600) {
+            $scope.policy.adminLogonDelay = 3600;
         }
-        if($scope.policy.sessionTimeout==null ||$scope.policy.sessionTimeout<1){
-            $scope.policy.sessionTimeout=1;
-        }else if($scope.policy.sessionTimeout>480){
-            $scope.policy.sessionTimeout=480;
+        if ($scope.policy.sessionTimeout == null || $scope.policy.sessionTimeout < 1) {
+            $scope.policy.sessionTimeout = 1;
+        } else if ($scope.policy.sessionTimeout > 480) {
+            $scope.policy.sessionTimeout = 480;
         }
-        if($scope.policy.adminOnlineCount==null ||$scope.policy.adminOnlineCount<1){
-            $scope.policy.adminOnlineCount=1;
-        }else if($scope.policy.adminOnlineCount>5){
-            $scope.policy.adminOnlineCount=5;
+        if ($scope.policy.adminOnlineCount == null || $scope.policy.adminOnlineCount < 1) {
+            $scope.policy.adminOnlineCount = 1;
+        } else if ($scope.policy.adminOnlineCount > 5) {
+            $scope.policy.adminOnlineCount = 5;
         }
     }
     $scope.init();

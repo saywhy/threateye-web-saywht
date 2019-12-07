@@ -9,7 +9,7 @@ angular.module('app')
             var isIE = !!navigator.userAgent.match(/MSIE/i);
             isIE && angular.element($window.document.body).addClass('ie');
             isSmartDevice($window) && angular.element($window.document.body).addClass('smart');
-
+            console.log(localStorage.getItem('username_admin'));
             // config
             $scope.app = {
                 name: 'ThreatEye高级威胁检测系统',
@@ -17,6 +17,7 @@ angular.module('app')
                 version: '1.0.0',
                 http: 'http://192.168.1.253',
                 https: 'http://192.168.1.253',
+                username_admin: localStorage.getItem('username_admin')
             };
             $scope.colorType = {
                 high: '#962116',
@@ -97,6 +98,7 @@ angular.module('app')
                     safety_direction: false,
                     safety_host: false,
                     safety_ioc: false,
+                    safety_sandbox: false,
                     reportform: false,
                     set: false,
                     set_net_ip: false,
@@ -118,97 +120,103 @@ angular.module('app')
                     url: './yiiapi/site/menu'
                 }).then(function successCallback(data) {
                     console.log(data);
-                    $rootScope.menuList = [];
-                    angular.forEach(data.data.data, function (item) {
-                        $rootScope.menuList.push(item.permissions_id);
-                        if (item.child_menu.length != 0) {
-                            angular.forEach(item.child_menu, function (key) {
-                                $rootScope.menuList.push(key.permissions_id);
-                            })
-                        }
-                    })
-                    console.log($rootScope.menuList);
-                    angular.forEach($rootScope.menuList, function (item) {
-                        switch (item) {
-                            case '1':
-                                $rootScope.menuListShow.overview = true;
-                                break;
-                            case '11':
-                                $rootScope.menuListShow.alarm_all = true;
-                                break;
-                            case '12':
-                                $rootScope.menuListShow.alarm = true;
-                                break;
-                            case '20':
-                                $rootScope.menuListShow.alarm_risk = true;
-                                break;
-                            case '27':
-                                $rootScope.menuListShow.safety = true;
-                                break;
-                            case '28':
-                                $rootScope.menuListShow.safety_dns = true;
-                                break;
-                            case '32':
-                                $rootScope.menuListShow.safety_url = true;
-                                break;
-                            case '36':
-                                $rootScope.menuListShow.safety_user = true;
-                                break;
-                            case '40':
-                                $rootScope.menuListShow.safety_file = true;
-                                break;
-                            case '44':
-                                $rootScope.menuListShow.safety_size = true;
-                                break;
-                            case '48':
-                                $rootScope.menuListShow.safety_direction = true;
-                                break;
-                            case '52':
-                                $rootScope.menuListShow.safety_host = true;
-                                break;
-                            case '60':
-                                $rootScope.menuListShow.safety_ioc = true;
-                                break;
-                            case '68':
-                                $rootScope.menuListShow.reportform = true;
-                                break;
-                            case '74':
-                                $rootScope.menuListShow.set = true;
-                                break;
-                            case '75':
-                                $rootScope.menuListShow.set_net_ip = true;
-                                break;
-                            case '79':
-                                $rootScope.menuListShow.set_black_list = true;
-                                break;
-                            case '86':
-                                $rootScope.menuListShow.set_net = true;
-                                break;
-                            case '91':
-                                $rootScope.menuListShow.set_rule = true;
-                                break;
-                            case '95':
-                                $rootScope.menuListShow.set_yara = true;
-                                break;
-                            case '100':
-                                $rootScope.menuListShow.set_email = true;
-                                break;
-                            case '104':
-                                $rootScope.menuListShow.set_syslog = true;
-                                break;
-                            case '109':
-                                $rootScope.menuListShow.set_log = true;
-                                break;
-                            case '125':
-                                $rootScope.menuListShow.set_licence = true;
-                                break;
-                            case '114':
-                                $rootScope.menuListShow.set_user = true;
-                                break;
-                            default:
-                                break;
-                        }
-                    })
+                    if (data.data.status == 0) {
+                        $rootScope.menuList = [];
+                        angular.forEach(data.data.data, function (item) {
+                            $rootScope.menuList.push(item.permissions_id);
+                            if (item.child_menu.length != 0) {
+                                angular.forEach(item.child_menu, function (key) {
+                                    $rootScope.menuList.push(key.permissions_id);
+                                })
+                            }
+                        })
+                        angular.forEach($rootScope.menuList, function (item) {
+                            switch (item) {
+                                case '1':
+                                    $rootScope.menuListShow.overview = true;
+                                    break;
+                                case '11':
+                                    $rootScope.menuListShow.alarm_all = true;
+                                    break;
+                                case '12':
+                                    $rootScope.menuListShow.alarm = true;
+                                    break;
+                                case '20':
+                                    $rootScope.menuListShow.alarm_risk = true;
+                                    break;
+                                case '27':
+                                    $rootScope.menuListShow.safety = true;
+                                    break;
+                                case '28':
+                                    $rootScope.menuListShow.safety_dns = true;
+                                    break;
+                                case '32':
+                                    $rootScope.menuListShow.safety_url = true;
+                                    break;
+                                case '36':
+                                    $rootScope.menuListShow.safety_user = true;
+                                    break;
+                                case '40':
+                                    $rootScope.menuListShow.safety_file = true;
+                                    break;
+                                case '44':
+                                    $rootScope.menuListShow.safety_size = true;
+                                    break;
+                                case '48':
+                                    $rootScope.menuListShow.safety_direction = true;
+                                    break;
+                                case '52':
+                                    $rootScope.menuListShow.safety_host = true;
+                                    break;
+                                case '60':
+                                    $rootScope.menuListShow.safety_ioc = true;
+                                    break;
+                                case '154':
+                                    $rootScope.menuListShow.safety_sandbox = true;
+                                    break;
+                                case '68':
+                                    $rootScope.menuListShow.reportform = true;
+                                    break;
+                                case '74':
+                                    $rootScope.menuListShow.set = true;
+                                    break;
+                                case '75':
+                                    $rootScope.menuListShow.set_net_ip = true;
+                                    break;
+                                case '79':
+                                    $rootScope.menuListShow.set_black_list = true;
+                                    break;
+                                case '86':
+                                    $rootScope.menuListShow.set_net = true;
+                                    break;
+                                case '91':
+                                    $rootScope.menuListShow.set_rule = true;
+                                    break;
+                                case '95':
+                                    $rootScope.menuListShow.set_yara = true;
+                                    break;
+                                case '100':
+                                    $rootScope.menuListShow.set_email = true;
+                                    break;
+                                case '104':
+                                    $rootScope.menuListShow.set_syslog = true;
+                                    break;
+                                case '109':
+                                    $rootScope.menuListShow.set_log = true;
+                                    break;
+                                case '125':
+                                    $rootScope.menuListShow.set_licence = true;
+                                    break;
+                                case '114':
+                                    $rootScope.menuListShow.set_user = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        })
+                    } else if (data.data.status == 1) {
+                        $state.go('signin');
+                    }
                     // $scope.$apply();
                 }, function errorCallback(data) {});
             }
@@ -357,8 +365,8 @@ angular.module('app')
                         id: item.id
                     }
                 }).success(function (data) {
-                    // console.log(data);
-                    if (data.status == 0) {}
+                    console.log(data);
+
                 }).error(function (err) {
                     console.log(err);
 
