@@ -149,9 +149,6 @@ app.controller("Alarm_detailController", [
         };
         // 匹配情报类型
         $scope.switch_type = function (params, content) {
-            console.log(params);
-            console.log(content);
-
             $scope.whois_list = [];
             $scope.urls_if = false;
             $scope.whois_if = false;
@@ -607,18 +604,10 @@ app.controller("Alarm_detailController", [
                             key: "SHA256",
                             value: content.sha256,
                         },
-                        // {
-                        //     key: "CRC32",
-                        //     value: content.crc32,
-                        // },
-                        // {
-                        //     key: "ssdeep",
-                        //     value: content.ssdeep,
-                        // },
-                        // {
-                        //     key: "Yara检测",
-                        //     value: content.yara,
-                        // },
+                        {
+                            key: "taskID",
+                            value: content.taskID,
+                        },
                     ];
                     if (content.category == '恶意程序') {
                         $scope.threat.sandbox.push({
@@ -693,7 +682,6 @@ app.controller("Alarm_detailController", [
         };
 
         $scope.download_payload = function (item) {
-            console.log(item);
             if (item.value == "点击下载" && item.key == "PayLoad信息") {
                 var funDownload = function (content, filename) {
                     // 创建隐藏的可下载链接
@@ -712,35 +700,20 @@ app.controller("Alarm_detailController", [
                 funDownload($scope.payload_text, "payload.dat");
             }
             if (item.value == "点击下载" && item.key == '文件下载') {
-                console.log(item);
                 window.open('/yiiapi/alert/get-file?md5=' + item.md5);
             }
         };
-        $scope.download_sandbox = function (arr, data) {
-            var funDownload = function (content, filename) {
-                // 创建隐藏的可下载链接
-                var eleLink = document.createElement("a");
-                eleLink.download = filename;
-                eleLink.style.display = "none";
-                // 字符内容转变成blob地址
-                var blob = new Blob([content]);
-                eleLink.href = URL.createObjectURL(blob);
-                // 触发点击
-                document.body.appendChild(eleLink);
-                eleLink.click();
-                // 然后移除
-                document.body.removeChild(eleLink);
-            };
-            var str = ''
-            angular.forEach(arr, function (item) {
-                str += item.description + '\r\n'
-            })
+        $scope.download_sandbox = function (data) {
+            console.log(data);
             angular.forEach(data, function (item) {
                 if (item.key == 'MD5') {
-                    $scope.sb_flie_name = item.value
+                    $scope.md5_signature = item.value
+                }
+                if (item.key == "taskID") {
+                    $scope.taskID_signature = item.value
                 }
             })
-            funDownload(str, $scope.sb_flie_name + ".log");
+            window.open('/yiiapi/alert/get-signature?md5=' + $scope.md5_signature + '&id=' + $scope.taskID_signature);
         }
         // 匹配网络事件
         $scope.switch_network = function (network_events) {

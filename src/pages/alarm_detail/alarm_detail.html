@@ -118,7 +118,7 @@
                                 <!-- 沙箱运行信息 sb -->
                                 <li class="time_content_li" ng-if="sandbox_if">
                                     <div style="display: inline-block">
-                                        <p ng-repeat="item in threat.sandbox">
+                                        <p ng-repeat="item in threat.sandbox" ng-if="item.key != 'taskID'">
                                             <span ng-bind="item.key" class="time_content_span_title"></span>
                                             <span ng-bind="item.value" ng-class="{payload:item.value=='点击下载'}"
                                                 ng-click="download_payload(item)"></span>
@@ -127,7 +127,7 @@
                                             <div class="time_content_span_title urls_style">文件行为</div>
                                             <div>
                                                 <span class="payload"
-                                                    ng-click="download_sandbox(threat.sandboxSignatures,threat.sandbox)">点击下载</span>
+                                                    ng-click="download_sandbox(threat.sandbox)">点击下载</span>
                                             </div>
                                         </div>
                                     </div>
