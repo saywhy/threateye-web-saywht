@@ -1,7 +1,8 @@
 app.controller('Set_timeController', ['$scope', '$http', '$state', '$rootScope', '$filter', function ($scope, $http, $state, $rootScope, $filter) {
     // 初始化
     $scope.init = function () {
-        $scope.datas = ['Africa/Abidjan', 'Africa/Accra', 'Africa/Addis_Ababa',
+        $scope.datas = [
+            'Africa/Abidjan', 'Africa/Accra', 'Africa/Addis_Ababa',
             'Africa/Asmara', 'Africa/Bamako', 'Africa/Bangui', 'Africa/Banjul',
             'Africa/Bissau', 'Africa/Blantyre', 'Africa/Brazzaville', 'Africa/Bujumbura',
             'Africa/Cairo', 'Africa/Casablanca', 'Africa/Maputo', 'Africa/Maseru',

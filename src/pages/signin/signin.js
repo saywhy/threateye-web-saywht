@@ -28,32 +28,32 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
         }, 200)
         $scope.focusInput();
         $rootScope.menuListShow = {
-            overview: false,
-            alarm_all: false,
-            alarm: false,
-            alarm_risk: false,
-            safety: false,
-            safety_dns: false,
-            safety_url: false,
-            safety_user: false,
-            safety_file: false,
-            safety_size: false,
-            safety_direction: false,
-            safety_host: false,
-            safety_ioc: false,
-            safety_sandbox: false,
-            reportform: false,
-            set: false,
-            set_net_ip: false,
-            set_black_list: false,
-            set_net: false,
-            set_rule: false,
-            set_yara: false,
-            set_email: false,
-            set_syslog: false,
-            set_log: false,
-            set_licence: false,
-            set_user: false
+            overview: true,
+            alarm_all: true,
+            alarm: true,
+            alarm_risk: true,
+            safety: true,
+            safety_dns: true,
+            safety_url: true,
+            safety_user: true,
+            safety_file: true,
+            safety_size: true,
+            safety_direction: true,
+            safety_host: true,
+            safety_ioc: true,
+            safety_sandbox: true,
+            reportform: true,
+            set: true,
+            set_net_ip: true,
+            set_black_list: true,
+            set_net: true,
+            set_rule: true,
+            set_yara: true,
+            set_email: true,
+            set_syslog: true,
+            set_log: true,
+            set_licence: true,
+            set_user: true
         };
     };
     // 第一次登录判断有无用户
@@ -246,6 +246,7 @@ app.controller('SigninFormController', ['$scope', '$rootScope', '$modal', '$http
                 if (data.data.status == 0 || data.data.status == 202) {
                     localStorage.setItem('username_admin', $scope.user.username);
                     $scope.app.username_admin = $scope.user.username;
+                    $state.go('app.overview');
                     // 获取用户菜单权限
                     $http({
                         method: 'get',

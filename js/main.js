@@ -85,141 +85,147 @@ angular.module('app')
                     asideFixed: true
                 };
                 $rootScope.menuListShow = {
-                    overview: false,
-                    alarm_all: false,
-                    alarm: false,
-                    alarm_risk: false,
-                    safety: false,
-                    safety_dns: false,
-                    safety_url: false,
-                    safety_user: false,
-                    safety_file: false,
-                    safety_size: false,
-                    safety_direction: false,
-                    safety_host: false,
-                    safety_ioc: false,
-                    safety_sandbox: false,
-                    reportform: false,
-                    set: false,
-                    set_net_ip: false,
-                    set_black_list: false,
-                    set_net: false,
-                    set_rule: false,
-                    set_yara: false,
-                    set_email: false,
-                    set_syslog: false,
-                    set_log: false,
-                    set_licence: false,
-                    set_user: false
+                    overview: true,
+                    alarm_all: true,
+                    alarm: true,
+                    alarm_risk: true,
+                    safety: true,
+                    safety_dns: true,
+                    safety_url: true,
+                    safety_user: true,
+                    safety_file: true,
+                    safety_size: true,
+                    safety_direction: true,
+                    safety_host: true,
+                    safety_ioc: true,
+                    safety_sandbox: true,
+                    reportform: true,
+                    set: true,
+                    set_net_ip: true,
+                    set_black_list: true,
+                    set_net: true,
+                    set_rule: true,
+                    set_yara: true,
+                    set_email: true,
+                    set_syslog: true,
+                    set_log: true,
+                    set_licence: true,
+                    set_user: true
                 };
 
             };
-            if (localStorage.getItem("menu") && localStorage.getItem("menu") == 'true') {
-                $http({
-                    method: 'get',
-                    url: './yiiapi/site/menu'
-                }).then(function successCallback(data) {
-                    console.log(data);
-                    if (data.data.status == 0) {
-                        $rootScope.menuList = [];
-                        angular.forEach(data.data.data, function (item) {
-                            $rootScope.menuList.push(item.permissions_id);
-                            if (item.child_menu.length != 0) {
-                                angular.forEach(item.child_menu, function (key) {
-                                    $rootScope.menuList.push(key.permissions_id);
-                                })
-                            }
-                        })
-                        angular.forEach($rootScope.menuList, function (item) {
-                            switch (item) {
-                                case '1':
-                                    $rootScope.menuListShow.overview = true;
-                                    break;
-                                case '11':
-                                    $rootScope.menuListShow.alarm_all = true;
-                                    break;
-                                case '12':
-                                    $rootScope.menuListShow.alarm = true;
-                                    break;
-                                case '20':
-                                    $rootScope.menuListShow.alarm_risk = true;
-                                    break;
-                                case '27':
-                                    $rootScope.menuListShow.safety = true;
-                                    break;
-                                case '28':
-                                    $rootScope.menuListShow.safety_dns = true;
-                                    break;
-                                case '32':
-                                    $rootScope.menuListShow.safety_url = true;
-                                    break;
-                                case '36':
-                                    $rootScope.menuListShow.safety_user = true;
-                                    break;
-                                case '40':
-                                    $rootScope.menuListShow.safety_file = true;
-                                    break;
-                                case '44':
-                                    $rootScope.menuListShow.safety_size = true;
-                                    break;
-                                case '48':
-                                    $rootScope.menuListShow.safety_direction = true;
-                                    break;
-                                case '52':
-                                    $rootScope.menuListShow.safety_host = true;
-                                    break;
-                                case '60':
-                                    $rootScope.menuListShow.safety_ioc = true;
-                                    break;
-                                case '154':
-                                    $rootScope.menuListShow.safety_sandbox = true;
-                                    break;
-                                case '68':
-                                    $rootScope.menuListShow.reportform = true;
-                                    break;
-                                case '74':
-                                    $rootScope.menuListShow.set = true;
-                                    break;
-                                case '75':
-                                    $rootScope.menuListShow.set_net_ip = true;
-                                    break;
-                                case '79':
-                                    $rootScope.menuListShow.set_black_list = true;
-                                    break;
-                                case '86':
-                                    $rootScope.menuListShow.set_net = true;
-                                    break;
-                                case '91':
-                                    $rootScope.menuListShow.set_rule = true;
-                                    break;
-                                case '95':
-                                    $rootScope.menuListShow.set_yara = true;
-                                    break;
-                                case '100':
-                                    $rootScope.menuListShow.set_email = true;
-                                    break;
-                                case '104':
-                                    $rootScope.menuListShow.set_syslog = true;
-                                    break;
-                                case '109':
-                                    $rootScope.menuListShow.set_log = true;
-                                    break;
-                                case '125':
-                                    $rootScope.menuListShow.set_licence = true;
-                                    break;
-                                case '114':
-                                    $rootScope.menuListShow.set_user = true;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        })
-                    } else if (data.data.status == 1) {
-                        $state.go('signin');
-                    }
-                    // $scope.$apply();
-                }, function errorCallback(data) {});
-            }
+            // if (localStorage.getItem("menu") && localStorage.getItem("menu") == 'true') {
+            //     $http({
+            //         method: 'get',
+            //         url: './yiiapi/site/menu'
+            //     }).then(function successCallback(data) {
+            //         console.log(1111);
+            //         console.log(data);
+            //         if (data.data.status == 0) {
+            //             $rootScope.menuList = [];
+            //             angular.forEach(data.data.data, function (item) {
+            //                 $rootScope.menuList.push(item.permissions_id);
+            //                 if (item.child_menu.length != 0) {
+            //                     angular.forEach(item.child_menu, function (key) {
+            //                         $rootScope.menuList.push(key.permissions_id);
+            //                     })
+            //                 }
+            //             })
+            //             console.log($rootScope.menuListShow);
+            //             angular.forEach($rootScope.menuList, function (item) {
+            //                 switch (item) {
+            //                     case '1':
+            //                         $rootScope.menuListShow.overview = true;
+            //                         break;
+            //                     case '11':
+            //                         $rootScope.menuListShow.alarm_all = true;
+            //                         break;
+            //                     case '12':
+            //                         $rootScope.menuListShow.alarm = true;
+            //                         break;
+            //                     case '20':
+            //                         $rootScope.menuListShow.alarm_risk = true;
+            //                         break;
+            //                     case '27':
+            //                         $rootScope.menuListShow.safety = true;
+            //                         break;
+            //                     case '28':
+            //                         $rootScope.menuListShow.safety_dns = true;
+            //                         break;
+            //                     case '32':
+            //                         $rootScope.menuListShow.safety_url = true;
+            //                         break;
+            //                     case '36':
+            //                         $rootScope.menuListShow.safety_user = true;
+            //                         break;
+            //                     case '40':
+            //                         $rootScope.menuListShow.safety_file = true;
+            //                         break;
+            //                     case '44':
+            //                         $rootScope.menuListShow.safety_size = true;
+            //                         break;
+            //                     case '48':
+            //                         $rootScope.menuListShow.safety_direction = true;
+            //                         break;
+            //                     case '52':
+            //                         $rootScope.menuListShow.safety_host = true;
+            //                         break;
+            //                     case '60':
+            //                         $rootScope.menuListShow.safety_ioc = true;
+            //                         break;
+            //                     case '154':
+            //                         console.log(154);
+            //                         $rootScope.menuListShow.safety_sandbox = true;
+            //                         break;
+            //                     case '68':
+            //                         $rootScope.menuListShow.reportform = true;
+            //                         break;
+            //                     case '74':
+            //                         $rootScope.menuListShow.set = true;
+            //                         break;
+            //                     case '75':
+            //                         $rootScope.menuListShow.set_net_ip = true;
+            //                         break;
+            //                     case '79':
+            //                         $rootScope.menuListShow.set_black_list = true;
+            //                         break;
+            //                     case '86':
+            //                         $rootScope.menuListShow.set_net = true;
+            //                         break;
+            //                     case '91':
+            //                         $rootScope.menuListShow.set_rule = true;
+            //                         break;
+            //                     case '95':
+            //                         $rootScope.menuListShow.set_yara = true;
+            //                         break;
+            //                     case '100':
+            //                         $rootScope.menuListShow.set_email = true;
+            //                         break;
+            //                     case '104':
+            //                         $rootScope.menuListShow.set_syslog = true;
+            //                         break;
+            //                     case '109':
+            //                         $rootScope.menuListShow.set_log = true;
+            //                         break;
+            //                     case '125':
+            //                         $rootScope.menuListShow.set_licence = true;
+            //                         break;
+            //                     case '114':
+            //                         $rootScope.menuListShow.set_user = true;
+            //                         break;
+            //                     default:
+            //                         break;
+            //                 }
+            //             })
+            //             console.log($rootScope.menuList);
+            //             console.log($rootScope.menuListShow);
+
+            //         } else if (data.data.status == 1) {
+            //             $state.go('signin');
+            //         }
+            //         // $scope.$apply();
+            //     }, function errorCallback(data) {});
+            // }
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 // console.log(toState);
                 if (toState.url == '' || toState.url == '/signin') {

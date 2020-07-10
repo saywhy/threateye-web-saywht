@@ -1,9 +1,9 @@
 /* Controllers */
-app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope', function ($scope, $http, $state,$rootScope) {
+app.controller('Set_licenceController', ['$scope', '$http', '$state', '$rootScope', function ($scope, $http, $state, $rootScope) {
     // 初始化
     $scope.init = function (params) {
-        $rootScope.pageNow= 0;
-         $scope.license_array = [];
+        $rootScope.pageNow = 0;
+        $scope.license_array = [];
         $scope.get_license(); // 获取证书列表
 
     };
@@ -13,11 +13,11 @@ app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope
             url: './yiiapi/license/get'
         }).then(function successCallback(data) {
             $scope.key = data.data.data.key;
-            if(data.data.status == 0){
-                for(key in data.data.data.license.list){
+            if (data.data.status == 0) {
+                for (key in data.data.data.license.list) {
                     $scope.license_array.push(data.data.data.license.list[key]);
                 }
-            }else if(data.data.status == 600){
+            } else if (data.data.status == 600) {
                 zeroModal.error(data.data.msg);
             }
         }, function errorCallback(data) {
@@ -38,7 +38,7 @@ app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope
             ok: true,
             okTitle: '激活',
             okFn: function () {
-                if($scope.SN){
+                if ($scope.SN) {
                     var post_data = {
                         SN: $scope.SN,
                         key: $scope.key
@@ -56,7 +56,7 @@ app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope
                                 content: '验证失败！',
                                 contentDetail: '此序列号已被替他设备使用，请购买新的许可证！',
                             });
-                        }else{
+                        } else {
                             zeroModal.error(rsp.data.msg);
                         }
                     }, function err(rsp) {
@@ -65,7 +65,7 @@ app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope
                             contentDetail: '请检查网络，确保服务器可以流畅访问互联网！',
                         });
                     });
-                }else{
+                } else {
                     zeroModal.error('请填写序列号');
                 }
             },
@@ -78,27 +78,28 @@ app.controller('Set_licenceController', ['$scope', '$http', '$state','$rootScope
     $scope.import = function () {
         $('#LicenseFile').click();
     };
-    $scope.importBin = function(bin) {
+    $scope.importBin = function (bin) {
         if (/^[0-1]*$/.test(bin)) {
             $http.post('./yiiapi/license/import', {
                 bin: bin
             }).then(function success(rsp) {
-                $scope.repeat_license =true;
+                $scope.repeat_license = true;
                 if (rsp.data.status == 0) {
-                   angular.forEach($scope.license_array,function(item,index){
-                        if(item.SN == rsp.data.data.SN){
+                    angular.forEach($scope.license_array, function (item, index) {
+                        if (item.SN == rsp.data.data.SN) {
                             zeroModal.success('许可证已存在，无需重复导入!');
-                           $scope.repeat_license =false;
+                            $scope.repeat_license = false;
                         }
-                   });
-                   if($scope.repeat_license){
-                    $scope.license_array.unshift(rsp.data.data.license.list[rsp.data.data.SN]);
-                    zeroModal.success('许可证导入成功!');
+                    });
+                    if ($scope.repeat_license) {
+                        $scope.license_array.unshift(rsp.data.data.license.list[rsp.data.data.SN]);
+                        zeroModal.success('许可证导入成功!');
 
-                   }
-                } else if(rsp.data.status==600){
+                    }
+                    $scope.get_license();
+                } else if (rsp.data.status == 600) {
                     console.log(rsp.data.msg);
-                }else {
+                } else {
                     zeroModal.error(rsp.data.msg);
                 }
             }, function err(rsp) {
